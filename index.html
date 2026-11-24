@@ -404,6 +404,134 @@
 
 </script>
 
+<!-- ADMIN DASHBOARD -->
+<section id="adminPanel" class="hidden" style="
+  margin-top:20px;
+  padding:18px;
+  background:#0e192d;
+  border:1px solid #35c6ad;
+  border-radius:14px;
+">
+  <h2 style="color:#35c6ad;text-align:center">
+    لوحة تحكم الإدارة
+  </h2>
+
+  <button onclick="loadAdminUsers()">تحديث قائمة المستخدمين</button>
+
+  <div id="adminUsers" style="margin-top:15px">
+    جاري التحميل...
+  </div>
+</section>
+
+<script>
+async function loadAdminUsers() {
+  const panel = document.getElementById("adminPanel");
+  const output = document.getElementById("adminUsers");
+
+  try {
+    const { data: { user }, error: authError } =
+      await db.auth.getUser();
+
+    if (authError || !user ||
+        user.app_metadata?.role !== "admin") {
+      panel.classList.add("hidden");
+      return;
+    }
+
+    panel.classList.remove("hidden");
+    output.textContent = "جاري تحميل المستخدمين...";
+
+    const { data, error } = await db
+      .from("profiles")
+      .select("id, full_name, phone, whatsapp, status")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    output.innerHTML = "";
+
+    if (!data || data.length === 0) {
+      output.textContent = "لا يوجد مستخدمون";
+      return;
+    }
+
+    data.forEach(user => {
+      const card = document.createElement("div");
+
+      card.style.cssText =
+        "background:#17233b;padding:14px;margin:12px 0;border-radius:12px;";
+
+      const info = document.createElement("div");
+      info.style.whiteSpace = "pre-line";
+      info.style.lineHeight = "2";
+      info.textContent =
+        "الاسم: " + (user.full_name || "") +
+        "\nالهاتف: " + (user.phone || "") +
+        "\nواتساب: " + (user.whatsapp || "") +
+        "\nالحالة: " + user.status;
+
+      card.appendChild(info);
+
+      const actions = [
+        { label: "قبول", status: "approved" },
+        { label: "رفض", status: "rejected" },
+        { label: "إيقاف", status: "suspended" },
+        { label: "انتظار", status: "pending" }
+      ];
+
+      actions.forEach(action => {
+        const button = document.createElement("button");
+        button.textContent = action.label;
+        button.style.marginTop = "8px";
+
+        button.onclick = async () => {
+          if (user.id ===
+              (await db.auth.getUser()).data.user.id) {
+            alert("لا يمكنك تغيير حالة حساب الأدمن من هذه اللوحة");
+            return;
+          }
+
+          if (!confirm("هل تريد تغيير حالة هذا الحساب؟")) return;
+
+          button.disabled = true;
+
+          const { error } = await db
+            .from("profiles")
+            .update({ status: action.status })
+            .eq("id", user.id);
+
+          if (error) {
+            alert("تعذر التعديل: " + error.message);
+            button.disabled = false;
+            return;
+          }
+
+          alert("تم تحديث حالة الحساب");
+          await loadAdminUsers();
+        };
+
+        card.appendChild(button);
+      });
+
+      output.appendChild(card);
+    });
+
+  } catch (error) {
+    output.textContent = "حدث خطأ: " + error.message;
+  }
+}
+
+db.auth.onAuthStateChange((event, session) => {
+  if (session && ["SIGNED_IN", "INITIAL_SESSION", "TOKEN_REFRESHED"].includes(event)) {
+    setTimeout(loadAdminUsers, 500);
+  } else if (event === "SIGNED_OUT") {
+    document.getElementById("adminPanel").classList.add("hidden");
+  }
+});
+</script>
+<!-- END ADMIN DASHBOARD -->
+
 </body>
 
 </html>
+
