@@ -225,56 +225,92 @@ async function saveActivationCode(){
  input.value="";status.textContent="تم حفظ كود التفعيل بأمان. لن يظهر مرة أخرى في لوحة الموقع.";
 }
 async function uploadActivationQR(){const f=$("activationQrFile").files[0];if(!f)return alert("اختر صورة QR");if(!["image/png","image/jpeg","image/webp"].includes(f.type)||f.size>5*1024*1024)return alert("ارفع PNG أو JPG أو WEBP بحجم أقصى 5MB");const {data:{user}}=await db.auth.getUser();if(user?.app_metadata?.role!=="admin")return alert("غير مسموح");const {error}=await db.storage.from(QR_BUCKET).upload(QR_PATH,f,{upsert:true,contentType:f.type,cacheControl:"0"});if(error)return alert(error.message);const {error:me}=await db.from("esim_qr_settings").upsert({id:1,object_path:QR_PATH,updated_at:new Date().toISOString()},{onConflict:"id"});if(me)return alert(me.message);alert("تم حفظ QR");$("activationQrFile").value="";loadAdminQR()}
-async functionconst { data: sessionData } = await db.auth.getSession();
-const token = sessionData?.session?.access_token;
 
-if (!token) {
-  throw new Error("انتهت الجلسة، سجّل الدخول مرة أخرى.");
-}
-
-const { data, error } = await db.functions.invoke(
-  "esim-install",
-  {
-    body: { action: "install" },
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+async function requestIndividualActivation() {
+  if (!currentUser) {
+    alert("سجّل الدخول أولاً");
+    return;
   }
-);{
- if(!currentUser){alert("سجّل الدخول أولاً");return}
- if(!/iPhone|iPod/i.test(navigator.userAgent)){
-  alert("التثبيت المباشر متاح من iPhone فقط.");return;
- }
- showCustomerTab("activation");
- const status=$("customerActivationStatus"),button=$("customerActivationButton");
- button.disabled=true;
- status.textContent="جاري التحقق من اعتماد الدفع وتجهيز التثبيت...";
- try{
-  const {data:orders,error:orderError}=await db
-   .from("payment_orders")
-   .select("id")
-   .eq("user_id",currentUser.id)
-   .eq("status","approved")
-   .limit(1);
-  if(orderError)throw orderError;
-  if(!orders?.length)throw new Error("لا يوجد طلب دفع معتمد. انتظر مراجعة الإدارة أولاً.");
 
-  const {data,error}=await db.functions.invoke("esim-install",{body:{action:"install"}});
-  if(error)throw error;
-  if(!data?.success||!data?.install_url)throw new Error(data?.error||"تعذر تجهيز رابط التثبيت.");
+  if (!/iPhone|iPod/i.test(navigator.userAgent)) {
+    alert("التثبيت المباشر متاح من iPhone فقط.");
+    return;
+  }
 
-  const installUrl=new URL(data.install_url);
-  if(installUrl.protocol!=="https:"||installUrl.hostname!=="esimsetup.apple.com")
-   throw new Error("رابط التثبيت غير صالح.");
+  showCustomerTab("activation");
 
-  status.textContent="تم تجهيز التثبيت. جاري فتح صفحة إضافة eSIM من Apple...";
-  window.location.assign(installUrl.href);
- }catch(e){
-  status.textContent="تعذر بدء التثبيت: "+(e.message||"خطأ غير معروف");
- }finally{
-  button.disabled=false;
- }
+  const status = $("customerActivationStatus");
+  const button = $("customerActivationButton");
+  button.disabled = true;
+  status.textContent = "جاري التحقق من الحساب والدفع...";
+
+  try {
+    const {
+      data: { session },
+      error: sessionError
+    } = await db.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
+    const token = session?.access_token;
+    if (!token) {
+      throw new Error("انتهت الجلسة. سجّل الدخول مرة أخرى.");
+    }
+
+    const { data: orders, error: orderError } = await db
+      .from("payment_orders")
+      .select("id")
+      .eq("user_id", currentUser.id)
+      .eq("status", "approved")
+      .limit(1);
+
+    if (orderError) throw orderError;
+    if (!orders || orders.length === 0) {
+      throw new Error("لا يوجد طلب دفع معتمد حتى الآن.");
+    }
+
+    status.textContent = "جاري تجهيز رابط تثبيت الشريحة...";
+
+    const { data, error } = await db.functions.invoke("esim-install", {
+      body: { action: "install" },
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (error) {
+      let detail = error.message || "تعذر الاتصال بخدمة التفعيل.";
+      try {
+        const context = error.context;
+        if (context && typeof context.json === "function") {
+          const payload = await context.json();
+          if (payload?.error) detail = payload.error;
+        }
+      } catch (_) {}
+      throw new Error(detail);
+    }
+
+    if (!data?.success || !data?.install_url) {
+      throw new Error(data?.error || "تعذر تجهيز رابط التثبيت.");
+    }
+
+    const installUrl = new URL(data.install_url);
+    if (
+      installUrl.protocol !== "https:" ||
+      installUrl.hostname !== "esimsetup.apple.com"
+    ) {
+      throw new Error("رابط التثبيت غير صالح.");
+    }
+
+    status.textContent = "تم تجهيز الرابط. جاري فتح إعدادات الشريحة...";
+    window.location.assign(installUrl.href);
+
+  } catch (e) {
+    console.error("eSIM activation error:", e);
+    status.textContent = "تعذر بدء التفعيل: " + (e.message || "خطأ غير معروف");
+  } finally {
+    button.disabled = false;
+  }
 }
+
 async function addPlan(){const name=$("planName").value.trim(),amount=$("planData").value.trim(),days=Number($("planDays").value),price=Number($("planPrice").value),currency=$("planCurrency").value.trim()||"EGP",description=$("planDescription").value.trim();if(!name||!amount||!Number.isInteger(days)||days<1||$("planPrice").value===""||!Number.isFinite(price)||price<0)return alert("أكمل البيانات بشكل صحيح");const {data:{user}}=await db.auth.getUser();if(user?.app_metadata?.role!=="admin")return alert("غير مسموح");const {error}=await db.from("esim_plans").insert({name,data_amount:amount,validity_days:days,price,currency,description,is_active:true});if(error)return alert(error.message);["planName","planData","planDays","planPrice","planDescription"].forEach(i=>$(i).value="");alert("تمت إضافة الباقة");loadAdminPlans()}
 async function loadAdminPlans(){const out=$("adminPlans");out.textContent="جاري التحميل...";try{const {data,error}=await db.from("esim_plans").select("*").order("created_at",{ascending:false});if(error)throw error;out.innerHTML="";if(!data?.length){out.textContent="لا توجد باقات";return}data.forEach(p=>{const c=document.createElement("div");c.className="user-card";const t=document.createElement("div");t.style.whiteSpace="pre-line";t.textContent=`${p.name}\n${p.data_amount} • ${p.validity_days} يوم\n${p.price} ${p.currency}\n${p.description||""}\nالحالة: ${p.is_active?"نشطة":"متوقفة"}`;c.appendChild(t);const a=document.createElement("div");a.className="admin-actions";const e=document.createElement("button");e.textContent="تعديل";e.onclick=()=>editPlan(p);const toggle=document.createElement("button");toggle.textContent=p.is_active?"إيقاف":"تفعيل";toggle.onclick=async()=>{const {error}=await db.from("esim_plans").update({is_active:!p.is_active}).eq("id",p.id);if(error)alert(error.message);else loadAdminPlans()};const d=document.createElement("button");d.textContent="حذف";d.className="danger";d.onclick=async()=>{if(!confirm("حذف الباقة؟"))return;const {error}=await db.from("esim_plans").delete().eq("id",p.id);if(error)alert(error.message);else loadAdminPlans()};a.append(e,toggle,d);c.appendChild(a);out.appendChild(c)})}catch(e){out.textContent=e.message}}
 async function editPlan(p){const name=prompt("اسم الباقة",p.name);if(name===null)return;const amount=prompt("الإنترنت",p.data_amount);if(amount===null)return;const days=Number(prompt("الصلاحية بالأيام",p.validity_days));if(!Number.isInteger(days)||days<1)return alert("مدة غير صحيحة");const price=Number(prompt("السعر",p.price));if(!Number.isFinite(price)||price<0)return alert("سعر غير صحيح");const currency=prompt("العملة",p.currency);if(currency===null)return;const description=prompt("الوصف",p.description||"");if(description===null)return;const {error}=await db.from("esim_plans").update({name:name.trim(),data_amount:amount.trim(),validity_days:days,price,currency:currency.trim(),description:description.trim()}).eq("id",p.id);if(error)alert(error.message);else loadAdminPlans()}
