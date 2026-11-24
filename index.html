@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -7,349 +6,63 @@
 <meta name="theme-color" content="#090817">
 <title>eSIM PRO | Premium Experience</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
-
-:root{
- --bg:#090817;
- --panel:#121128;
- --panel2:#191634;
- --purple:#9255ff;
- --purple2:#bd8aff;
- --text:#fff;
- --muted:#aaa5c4;
- --border:#30264c;
- --green:#39dfb0;
- --red:#ff557b;
-}
-
+:root{--bg:#090817;--panel:#121128;--panel2:#191634;--purple:#9255ff;--purple2:#bd8aff;--text:#fff;--muted:#aaa5c4;--border:#30264c;--green:#39dfb0;--red:#ff557b}
 *{box-sizing:border-box}
-
-body{
- margin:0;
- min-height:100vh;
- padding:22px 13px;
- background:
- radial-gradient(ellipse at 15% 5%,#48208055,transparent 42%),
- radial-gradient(ellipse at 90% 65%,#30208044,transparent 40%),
- var(--bg);
- color:var(--text);
- font-family:'Cairo',Arial,sans-serif;
-}
-
+body{margin:0;min-height:100vh;padding:22px 13px;background:radial-gradient(ellipse at 15% 5%,#48208055,transparent 42%),radial-gradient(ellipse at 90% 65%,#30208044,transparent 40%),var(--bg);color:var(--text);font-family:'Cairo',Arial,sans-serif}
 button,input{font-family:inherit}
-
-.container{
- width:100%;
- max-width:650px;
- margin:auto;
- padding:23px 17px;
- background:linear-gradient(155deg,#17142e,#100f21 75%);
- border:1px solid var(--border);
- border-radius:25px;
- box-shadow:0 25px 80px #0008,0 0 35px #7638d522;
- overflow:hidden;
-}
-
-.brand{
- display:flex;
- align-items:center;
- justify-content:center;
- gap:10px;
- margin-bottom:7px;
-}
-
-.brand-icon{
- width:43px;height:43px;
- display:grid;place-items:center;
- border-radius:14px;
- background:linear-gradient(135deg,#a35bff,#5425b7);
- box-shadow:0 0 25px #9255ff66;
- font-size:23px;
-}
-
-h1{
- margin:0;
- font-size:27px;
- font-weight:900;
- letter-spacing:1px;
- background:linear-gradient(90deg,#fff,#c69aff);
- -webkit-background-clip:text;
- color:transparent;
-}
-
-.subtitle{
- text-align:center;
- color:var(--muted);
- font-size:13px;
- margin:0 0 25px;
-}
-
-h2{
- text-align:center;
- font-size:23px;
- margin:12px 0;
- color:#d7bdff;
-}
-
+.container{width:100%;max-width:650px;margin:auto;padding:23px 17px;background:linear-gradient(155deg,#17142e,#100f21 75%);border:1px solid var(--border);border-radius:25px;box-shadow:0 25px 80px #0008,0 0 35px #7638d522;overflow:hidden}
+.brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:7px}
+.brand-icon{width:43px;height:43px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,#a35bff,#5425b7);box-shadow:0 0 25px #9255ff66;font-size:23px}
+h1{margin:0;font-size:27px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#fff,#c69aff);-webkit-background-clip:text;color:transparent}
+.subtitle{text-align:center;color:var(--muted);font-size:13px;margin:0 0 25px}
+h2{text-align:center;font-size:23px;margin:12px 0;color:#d7bdff}
 h3{margin:5px 0 12px}
-
-input{
- width:100%;
- padding:15px;
- margin:8px 0;
- border:1px solid #3b3159;
- border-radius:13px;
- background:#0c0b1b;
- color:white;
- font-size:15px;
- outline:none;
- transition:.25s;
-}
-
-input:focus{
- border-color:var(--purple);
- box-shadow:0 0 0 3px #9255ff22;
-}
-
+input{width:100%;padding:15px;margin:8px 0;border:1px solid #3b3159;border-radius:13px;background:#0c0b1b;color:white;font-size:15px;outline:none;transition:.25s}
+input:focus{border-color:var(--purple);box-shadow:0 0 0 3px #9255ff22}
 input::placeholder{color:#77728e}
-
-button{
- width:100%;
- padding:14px;
- margin-top:10px;
- border:0;
- border-radius:13px;
- font-size:15px;
- font-weight:800;
- cursor:pointer;
- color:white;
- background:linear-gradient(110deg,#7439d9,#a45cff);
- box-shadow:0 7px 23px #793bca35;
- transition:.2s;
-}
-
+button{width:100%;padding:14px;margin-top:10px;border:0;border-radius:13px;font-size:15px;font-weight:800;cursor:pointer;color:white;background:linear-gradient(110deg,#7439d9,#a45cff);box-shadow:0 7px 23px #793bca35;transition:.2s}
 button:active{transform:scale(.98)}
-
-button.secondary{
- background:#27213f;
- border:1px solid #463765;
- box-shadow:none;
-}
-
-button.danger{
- background:linear-gradient(110deg,#a92d56,#e04c70);
-}
-
+button.secondary{background:#27213f;border:1px solid #463765;box-shadow:none}
+button.danger{background:linear-gradient(110deg,#a92d56,#e04c70)}
 button:disabled{opacity:.5;cursor:not-allowed}
-
 .hidden{display:none!important}
-
-.card{
- margin-top:15px;
- padding:18px;
- background:linear-gradient(145deg,#1b1836,#121126);
- border:1px solid #33284f;
- border-radius:17px;
- line-height:1.9;
-}
-
+.card{margin-top:15px;padding:18px;background:linear-gradient(145deg,#1b1836,#121126);border:1px solid #33284f;border-radius:17px;line-height:1.9}
 .status{text-align:center}
-
-.small{
- text-align:center;
- color:#77728e;
- font-size:12px;
- margin-top:25px;
-}
-
-.hero{
- position:relative;
- overflow:hidden;
- padding:25px 19px;
- margin:18px 0;
- border:1px solid #60418e;
- border-radius:20px;
- background:
- radial-gradient(circle at 90% 10%,#9d53ff66,transparent 40%),
- linear-gradient(135deg,#281747,#121128 75%);
-}
-
-.hero-tag{
- display:inline-block;
- padding:5px 12px;
- border-radius:30px;
- background:#a45cff22;
- color:#d4b5ff;
- font-size:11px;
- font-weight:bold;
-}
-
-.hero h2{
- text-align:right;
- font-size:26px;
- line-height:1.5;
- color:white;
- margin:12px 0 5px;
-}
-
+.small{text-align:center;color:#77728e;font-size:12px;margin-top:25px}
+.hero{position:relative;overflow:hidden;padding:25px 19px;margin:18px 0;border:1px solid #60418e;border-radius:20px;background:radial-gradient(circle at 90% 10%,#9d53ff66,transparent 40%),linear-gradient(135deg,#281747,#121128 75%)}
+.hero-tag{display:inline-block;padding:5px 12px;border-radius:30px;background:#a45cff22;color:#d4b5ff;font-size:11px;font-weight:bold}
+.hero h2{text-align:right;font-size:26px;line-height:1.5;color:white;margin:12px 0 5px}
 .hero p{color:#c2b8d9;font-size:13px}
-
-.hero-orb{
- position:absolute;
- width:115px;height:115px;
- border-radius:50%;
- left:-25px;top:15px;
- background:#9952ff25;
- filter:blur(3px);
- box-shadow:0 0 50px #9952ff55;
-}
-
-.section-title{
- display:flex;
- align-items:center;
- gap:9px;
- margin:25px 2px 10px;
- font-size:17px;
- font-weight:800;
-}
-
+.hero-orb{position:absolute;width:115px;height:115px;border-radius:50%;left:-25px;top:15px;background:#9952ff25;filter:blur(3px);box-shadow:0 0 50px #9952ff55}
+.section-title{display:flex;align-items:center;gap:9px;margin:25px 2px 10px;font-size:17px;font-weight:800}
 .section-title span{color:var(--purple2)}
-
-.sim-grid{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:9px;
-}
-
-.sim-option{
- min-width:0;
- padding:14px 5px;
- text-align:center;
- border:1px solid #382d53;
- border-radius:15px;
- background:#15132a;
- cursor:pointer;
- transition:.2s;
-}
-
-.sim-option.active{
- border-color:#a66aff;
- background:linear-gradient(145deg,#41236c,#211737);
- box-shadow:0 0 20px #9255ff30;
-}
-
-.sim-icon{font-size:25px}
-.sim-option strong{display:block;font-size:13px}
-.sim-option small{color:#aaa1c4;font-size:10px}
-
-.info-box{
- padding:15px;
- margin-top:12px;
- border:1px solid #453361;
- border-radius:14px;
- background:#17142d;
- color:#d3c8e8;
- font-size:13px;
- line-height:2;
-}
-
+.info-box{padding:15px;margin-top:12px;border:1px solid #453361;border-radius:14px;background:#17142d;color:#d3c8e8;font-size:13px;line-height:2}
 .info-box strong{color:#d5b3ff}
-
-.note{
- padding:13px;
- margin-top:10px;
- border-radius:12px;
- background:#29203e;
- color:#cfc2e5;
- font-size:12px;
- line-height:2;
-}
-
-.device-box{
- padding:18px;
- margin-top:12px;
- border:1px solid #493267;
- border-radius:17px;
- background:linear-gradient(145deg,#21183b,#151329);
-}
-
-.device-box p{
- color:var(--muted);
- font-size:12px;
-}
-
-.device-result{
- margin-top:12px;
- padding:13px;
- border-radius:12px;
- background:#0c0b1b;
- color:#d6c5f5;
- font-size:13px;
- line-height:1.9;
-}
-
-.user-card{
- background:#15132a;
- border:1px solid #34294d;
- padding:15px;
- margin:12px 0;
- border-radius:15px;
- line-height:2;
-}
-
-.admin-actions{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:7px;
-}
-
-.admin-actions button{
- margin:0;
- padding:10px 5px;
- font-size:13px;
-}
-
-.top-line{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
-}
-
-.online{
- color:var(--green);
- font-size:11px;
-}
-
-@media(max-width:390px){
- .container{padding:19px 12px}
- .hero h2{font-size:23px}
-}
+.note{padding:13px;margin-top:10px;border-radius:12px;background:#29203e;color:#cfc2e5;font-size:12px;line-height:2}
+.device-box{padding:18px;margin-top:12px;border:1px solid #493267;border-radius:17px;background:linear-gradient(145deg,#21183b,#151329)}
+.device-box p{color:var(--muted);font-size:12px}
+.device-result{margin-top:12px;padding:13px;border-radius:12px;background:#0c0b1b;color:#d6c5f5;font-size:13px;line-height:1.9}
+.user-card{background:#15132a;border:1px solid #34294d;padding:15px;margin:12px 0;border-radius:15px;line-height:2}
+.admin-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.admin-actions button{margin:0;padding:10px 5px;font-size:13px}
+.top-line{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.online{color:var(--green);font-size:11px}
+.plan-card{margin:12px 0;padding:17px;border:1px solid #493267;border-radius:16px;background:linear-gradient(145deg,#21183b,#151329)}
+.plan-card h3{color:#dfcaff;font-size:18px}
+.plan-price{font-size:21px;font-weight:900;color:#cba6ff}
+.plan-meta{color:#c2b8d9;font-size:13px;line-height:2}
+.plan-description{color:#aaa5c4;font-size:13px}
+@media(max-width:390px){.container{padding:19px 12px}.hero h2{font-size:23px}}
 </style>
 </head>
-
 <body>
 <main class="container">
+<header><div class="brand"><div class="brand-icon">✦</div><h1>eSIM PRO</h1></div><p class="subtitle">NEXT GENERATION CONNECTIVITY</p></header>
 
-<header>
- <div class="brand">
-  <div class="brand-icon">✦</div>
-  <h1>eSIM PRO</h1>
- </div>
- <p class="subtitle">NEXT GENERATION CONNECTIVITY</p>
-</header>
-
-<!-- LOGIN -->
 <section id="login">
- <div class="hero">
-  <span class="hero-tag">PREMIUM EXPERIENCE</span>
-  <h2>عالمك متصل<br>بلا حدود.</h2>
-  <p>سجّل دخولك واستمتع بتجربة eSIM جديدة.</p>
-  <div class="hero-orb"></div>
- </div>
-
+ <div class="hero"><span class="hero-tag">PREMIUM EXPERIENCE</span><h2>عالمك متصل<br>بلا حدود.</h2><p>سجّل دخولك واستمتع بتجربة eSIM جديدة.</p><div class="hero-orb"></div></div>
  <h3>تسجيل الدخول</h3>
  <input id="loginEmail" type="email" placeholder="البريد الإلكتروني">
  <input id="loginPassword" type="password" placeholder="كلمة المرور">
@@ -357,10 +70,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
  <button class="secondary" onclick="showRegister()">إنشاء حساب جديد</button>
 </section>
 
-<!-- REGISTER -->
 <section id="register" class="hidden">
- <h2>إنشاء حسابك</h2>
- <p class="subtitle">انضم إلى تجربة eSIM PRO</p>
+ <h2>إنشاء حسابك</h2><p class="subtitle">انضم إلى تجربة eSIM PRO</p>
  <input id="fullName" placeholder="الاسم بالكامل">
  <input id="phone" type="tel" placeholder="رقم الهاتف">
  <input id="whatsapp" type="tel" placeholder="رقم الواتساب">
@@ -372,419 +83,229 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
 <div id="message" class="card hidden"></div>
 
-<!-- WAITING -->
 <section id="waitingPanel" class="hidden">
- <div class="hero">
-  <span class="hero-tag">ACCOUNT STATUS</span>
-  <h2 id="waitingTitle">طلبك قيد المراجعة</h2>
-  <p>نشكرك على اختيار eSIM PRO</p>
- </div>
+ <div class="hero"><span class="hero-tag">ACCOUNT STATUS</span><h2 id="waitingTitle">طلبك قيد المراجعة</h2><p>نشكرك على اختيار eSIM PRO</p></div>
  <div id="waitingText" class="card status"></div>
  <button class="secondary" onclick="logout()">تسجيل الخروج</button>
 </section>
 
-<!-- CUSTOMER -->
 <section id="customerPanel" class="hidden">
-
- <div class="top-line">
-  <span class="online">● ACCOUNT ACTIVE</span>
-  <span class="hero-tag">eSIM PRO</span>
- </div>
-
- <div class="hero">
-  <span class="hero-tag">WELCOME BACK</span>
-  <h2>أهلاً بك،<br><span id="customerName"></span></h2>
-  <p>ابدأ تجربة الاتصال الرقمية الخاصة بك.</p>
-  <div class="hero-orb"></div>
- </div>
-
- <div class="section-title">
-  <span>✦</span> اختر الشريحة
- </div>
-
- <div class="sim-grid">
-  <div class="sim-option active" data-sim="1" onclick="selectSim(1)">
-   <div class="sim-icon">▣</div>
-   <strong>eSIM 01</strong>
-   <small>الشريحة الأولى</small>
-  </div>
-  <div class="sim-option" data-sim="2" onclick="selectSim(2)">
-   <div class="sim-icon">▣</div>
-   <strong>eSIM 02</strong>
-   <small>الشريحة الثانية</small>
-  </div>
-  <div class="sim-option" data-sim="3" onclick="selectSim(3)">
-   <div class="sim-icon">▣</div>
-   <strong>eSIM 03</strong>
-   <small>الشريحة الثالثة</small>
-  </div>
- </div>
-
- <div class="info-box">
-  <strong id="selectedSimTitle">eSIM 01</strong>
-  <p id="simDescription">
-   تم اختيار الشريحة الأولى. راجع تعليمات التفعيل الخاصة بها قبل البدء.
-  </p>
-  <div class="note">
-   <strong>ملاحظة VPN:</strong>
-   <span id="vpnInfo">تعليمات VPN الخاصة بهذه الشريحة يتم تحديدها من الإدارة.</span>
-  </div>
- </div>
-
- <div class="section-title">
-  <span>✦</span> تعليمات مهمة
- </div>
-
- <div class="card">
-  <p>• تأكد من اتصال هاتفك بالإنترنت.</p>
-  <p>• تأكد أن جهازك يدعم تقنية eSIM.</p>
-  <p>• لا تحذف الشريحة من جهازك إلا بعد الرجوع للإدارة.</p>
-  <p>• اتبع تعليمات التفعيل التي توفرها الإدارة.</p>
- </div>
-
- <div class="section-title">
-  <span>✦</span> فحص دعم الجهاز
- </div>
-
- <div class="device-box">
-  <h3>هل جهازك يدعم eSIM؟</h3>
-  <p>اطلب الرقم من خلال لوحة الاتصال بكتابة *#06#، ثم أدخل رقم IMEI لفحصه.</p>
-  <input id="imeiInput" type="text" inputmode="numeric" maxlength="15" placeholder="أدخل رقم IMEI المكون من 15 رقم">
-  <button onclick="checkDevice()">فحص الرقم</button>
-  <div id="deviceResult" class="device-result hidden"></div>
-  <p>تنبيه: التحقق من الرقم هنا مبدئي فقط. تحديد دعم الجهاز فعلياً يحتاج قاعدة بيانات توافق أجهزة أو خدمة فحص موثوقة.</p>
- </div>
-
- <div class="section-title">
-  <span>✦</span> بيانات حسابي
- </div>
-
- <div class="card">
-  <div id="customerInfo"></div>
- </div>
-
+ <div class="top-line"><span class="online">● ACCOUNT ACTIVE</span><span class="hero-tag">eSIM PRO</span></div>
+ <div class="hero"><span class="hero-tag">WELCOME BACK</span><h2>أهلاً بك،<br><span id="customerName"></span></h2><p>ابدأ تجربة الاتصال الرقمية الخاصة بك.</p><div class="hero-orb"></div></div>
+ <div class="section-title"><span>✦</span> شرائح eSIM المتاحة</div>
+ <div id="customerPlans"><div class="card">جاري تحميل الشرائح...</div></div>
+ <div class="section-title"><span>✦</span> تعليمات مهمة</div>
+ <div class="card"><p>• تأكد من اتصال هاتفك بالإنترنت.</p><p>• تأكد أن جهازك يدعم تقنية eSIM.</p><p>• لا تحذف الشريحة من جهازك إلا بعد الرجوع للإدارة.</p><p>• اتبع تعليمات التفعيل التي توفرها الإدارة.</p></div>
+ <div class="section-title"><span>✦</span> فحص دعم الجهاز</div>
+ <div class="device-box"><h3>هل جهازك يدعم eSIM؟</h3><p>اطلب الرقم من خلال لوحة الاتصال بكتابة *#06#، ثم أدخل رقم IMEI لفحصه.</p><input id="imeiInput" type="text" inputmode="numeric" maxlength="15" placeholder="أدخل رقم IMEI المكون من 15 رقم"><button onclick="checkDevice()">فحص الرقم</button><div id="deviceResult" class="device-result hidden"></div><p>تنبيه: التحقق من الرقم هنا مبدئي فقط. تحديد دعم الجهاز فعلياً يحتاج قاعدة بيانات توافق أجهزة أو خدمة فحص موثوقة.</p></div>
+ <div class="section-title"><span>✦</span> بيانات حسابي</div><div class="card"><div id="customerInfo"></div></div>
  <button class="secondary" onclick="logout()">تسجيل الخروج</button>
 </section>
 
-<!-- ADMIN -->
 <section id="adminPanel" class="hidden">
+ <div class="hero"><span class="hero-tag">ADMIN CONTROL CENTER</span><h2>لوحة الإدارة</h2><p>إدارة حسابات وشرائح مستخدمي eSIM PRO</p></div>
+ <div class="card status"><span class="online">● ADMIN ACCESS</span><h3>أهلاً بك في لوحة الإدارة</h3><p>إدارة ومراجعة حسابات العملاء وشرائح eSIM.</p></div>
 
- <div class="hero">
-  <span class="hero-tag">ADMIN CONTROL CENTER</span>
-  <h2>لوحة الإدارة</h2>
-  <p>إدارة حسابات مستخدمي eSIM PRO</p>
+ <div class="section-title"><span>✦</span> إضافة شريحة جديدة</div>
+ <div class="card">
+  <input id="planName" placeholder="اسم الشريحة">
+  <input id="planData" placeholder="حجم الإنترنت مثل 5GB">
+  <input id="planDays" type="number" min="1" placeholder="مدة الصلاحية بالأيام">
+  <input id="planPrice" type="number" min="0" step="0.01" placeholder="السعر">
+  <input id="planCurrency" value="USD" placeholder="العملة مثل USD أو EGP">
+  <input id="planDescription" placeholder="وصف الشريحة">
+  <button onclick="addPlan()">+ إضافة الشريحة</button>
  </div>
+ <div class="section-title"><span>✦</span> إدارة الشرائح المضافة</div>
+ <button class="secondary" onclick="loadAdminPlans()">↻ تحديث الشرائح</button>
+ <div id="adminPlans"></div>
 
- <div class="card status">
-  <span class="online">● ADMIN ACCESS</span>
-  <h3>أهلاً بك في لوحة الإدارة</h3>
-  <p>إدارة ومراجعة حسابات العملاء.</p>
- </div>
-
+ <div class="section-title"><span>✦</span> إدارة العملاء</div>
  <button onclick="loadAdminUsers()">↻ تحديث قائمة المستخدمين</button>
  <div id="adminUsers"></div>
  <button class="secondary" onclick="logout()">تسجيل الخروج</button>
 </section>
 
-<footer class="small">
- eSIM PRO © 2026<br>
- PREMIUM DIGITAL CONNECTIVITY
-</footer>
-
+<footer class="small">eSIM PRO © 2026<br>PREMIUM DIGITAL CONNECTIVITY</footer>
 </main>
 
 <script>
-const SUPABASE_URL = "https://ldvacfkwoqufhmcdtyqw.supabase.co";
-const SUPABASE_KEY = "sb_publishable_2nvmFr16JSlT6sOZIzSxbA_vl9M3EpS";
+const SUPABASE_URL="https://ldvacfkwoqufhmcdtyqw.supabase.co";
+const SUPABASE_KEY="sb_publishable_2nvmFr16JSlT6sOZIzSxbA_vl9M3EpS";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+const panels=["login","register","waitingPanel","customerPanel","adminPanel"];
 
-const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const $ = id => document.getElementById(id);
-
-const panels=[
- "login","register","waitingPanel","customerPanel","adminPanel"
-];
-
-function showOnly(id){
- panels.forEach(p=>$(p).classList.add("hidden"));
- $(id).classList.remove("hidden");
- hideMessage();
-}
-
-function message(text){
- $("message").textContent=text;
- $("message").classList.remove("hidden");
-}
-
-function hideMessage(){
- $("message").classList.add("hidden");
-}
-
+function showOnly(id){panels.forEach(p=>$(p).classList.add("hidden"));$(id).classList.remove("hidden");hideMessage()}
+function message(text){$("message").textContent=text;$("message").classList.remove("hidden")}
+function hideMessage(){$("message").classList.add("hidden")}
 function showLogin(){showOnly("login")}
 function showRegister(){showOnly("register")}
 
 async function register(){
  hideMessage();
-
- const fullName=$("fullName").value.trim();
- const phone=$("phone").value.trim();
- const whatsapp=$("whatsapp").value.trim();
- const email=$("regEmail").value.trim();
- const password=$("regPassword").value;
-
- if(!fullName||!phone||!whatsapp||!email||!password)
-  return message("من فضلك أكمل جميع البيانات");
-
- if(password.length<6)
-  return message("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
-
+ const fullName=$("fullName").value.trim(),phone=$("phone").value.trim(),whatsapp=$("whatsapp").value.trim(),email=$("regEmail").value.trim(),password=$("regPassword").value;
+ if(!fullName||!phone||!whatsapp||!email||!password)return message("من فضلك أكمل جميع البيانات");
+ if(password.length<6)return message("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
  try{
-  const {data,error}=await db.auth.signUp({
-   email,password,
-   options:{data:{
-    full_name:fullName,
-    phone,
-    whatsapp
-   }}
-  });
-
-  if(error) throw error;
-
-  if(!data.session){
-   message("تم إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب، ثم سجل الدخول.");
-  }else{
-   await loadProfile();
-  }
- }catch(error){
-  message("تعذر إنشاء الحساب: "+error.message);
- }
+  const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName,phone,whatsapp}}});
+  if(error)throw error;
+  if(!data.session)message("تم إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب، ثم سجل الدخول.");
+  else await loadProfile();
+ }catch(error){message("تعذر إنشاء الحساب: "+error.message)}
 }
 
 async function login(){
  hideMessage();
-
- const email=$("loginEmail").value.trim();
- const password=$("loginPassword").value;
-
- if(!email||!password)
-  return message("اكتب البريد الإلكتروني وكلمة المرور");
-
- try{
-  const {error}=await db.auth.signInWithPassword({email,password});
-  if(error) throw error;
-  await loadProfile();
- }catch(error){
-  message("تعذر تسجيل الدخول: "+error.message);
- }
-}
-
-let selectedSim=1;
-
-function selectSim(number){
- selectedSim=number;
-
- document.querySelectorAll(".sim-option").forEach(item=>{
-  item.classList.toggle("active",Number(item.dataset.sim)===number);
- });
-
- $("selectedSimTitle").textContent="eSIM 0"+number;
- $("simDescription").textContent=
-  "تم اختيار الشريحة رقم "+number+". راجع تعليمات التفعيل الخاصة بها قبل البدء.";
-
- $("vpnInfo").textContent=
-  "تعليمات VPN الخاصة بالشريحة رقم "+number+" يتم تحديدها من الإدارة.";
+ const email=$("loginEmail").value.trim(),password=$("loginPassword").value;
+ if(!email||!password)return message("اكتب البريد الإلكتروني وكلمة المرور");
+ try{const {error}=await db.auth.signInWithPassword({email,password});if(error)throw error;await loadProfile()}
+ catch(error){message("تعذر تسجيل الدخول: "+error.message)}
 }
 
 function checkDevice(){
- const value=$("imeiInput").value.trim();
- const result=$("deviceResult");
-
- result.classList.remove("hidden");
-
- if(!/^[0-9]{15}$/.test(value)){
-  result.textContent="من فضلك أدخل رقم IMEI صحيح مكون من 15 رقمًا.";
-  return;
- }
-
- result.textContent=
-  "تم إدخال رقم IMEI بنجاح. لم يتم التحقق من توافق الجهاز بعد؛ يلزم ربط الموقع بخدمة فحص أجهزة موثوقة.";
+ const value=$("imeiInput").value.trim(),result=$("deviceResult");result.classList.remove("hidden");
+ if(!/^[0-9]{15}$/.test(value)){result.textContent="من فضلك أدخل رقم IMEI صحيح مكون من 15 رقمًا.";return}
+ result.textContent="تم إدخال رقم IMEI بنجاح. لم يتم التحقق من توافق الجهاز بعد؛ يلزم ربط الموقع بخدمة فحص أجهزة موثوقة.";
 }
 
 async function loadProfile(){
  try{
-  const {data:{user},error:authError}=await db.auth.getUser();
-  if(authError) throw authError;
-  if(!user) return showLogin();
-
-  if(user.app_metadata?.role==="admin"){
-   showOnly("adminPanel");
-   await loadAdminUsers();
-   return;
-  }
-
-  const {data,error}=await db
-   .from("profiles")
-   .select("full_name,phone,whatsapp,status")
-   .eq("id",user.id)
-   .single();
-
-  if(error) throw error;
-
+  const {data:{user},error:authError}=await db.auth.getUser();if(authError)throw authError;if(!user)return showLogin();
+  if(user.app_metadata?.role==="admin"){showOnly("adminPanel");await loadAdminUsers();await loadAdminPlans();return}
+  const {data,error}=await db.from("profiles").select("full_name,phone,whatsapp,status").eq("id",user.id).single();
+  if(error)throw error;
   if(data.status!=="approved"){
    showOnly("waitingPanel");
-
    const statusInfo={
-    pending:{
-     title:"حسابك قيد المراجعة",
-     text:"تم استلام طلبك بنجاح. انتظر موافقة الإدارة لتفعيل حسابك."
-    },
-    rejected:{
-     title:"تم رفض الحساب",
-     text:"تم رفض طلب حسابك. يرجى التواصل مع الإدارة."
-    },
-    suspended:{
-     title:"الحساب موقوف",
-     text:"حسابك موقوف حالياً. يرجى التواصل مع الإدارة."
-    }
+    pending:{title:"حسابك قيد المراجعة",text:"تم استلام طلبك بنجاح. انتظر موافقة الإدارة لتفعيل حسابك."},
+    rejected:{title:"تم رفض الحساب",text:"تم رفض طلب حسابك. يرجى التواصل مع الإدارة."},
+    suspended:{title:"الحساب موقوف",text:"حسابك موقوف حالياً. يرجى التواصل مع الإدارة."}
    };
-
-   const info=statusInfo[data.status]||{
-    title:"الحساب غير مفعل",
-    text:"يرجى التواصل مع الإدارة."
-   };
-
-   $("waitingTitle").textContent=info.title;
-   $("waitingText").textContent=info.text;
-   return;
+   const info=statusInfo[data.status]||{title:"الحساب غير مفعل",text:"يرجى التواصل مع الإدارة."};
+   $("waitingTitle").textContent=info.title;$("waitingText").textContent=info.text;return;
   }
-
   showOnly("customerPanel");
   $("customerName").textContent=data.full_name||"عميلنا العزيز";
-
-  $("customerInfo").textContent=
-   "الاسم: "+(data.full_name||"غير مسجل")+
-   " | الهاتف: "+(data.phone||"غير مسجل")+
-   " | الواتساب: "+(data.whatsapp||"غير مسجل");
-
-  selectSim(1);
-
- }catch(error){
-  showOnly("login");
-  message("تعذر تحميل الحساب: "+error.message);
- }
+  $("customerInfo").textContent="الاسم: "+(data.full_name||"غير مسجل")+" | الهاتف: "+(data.phone||"غير مسجل")+" | الواتساب: "+(data.whatsapp||"غير مسجل");
+  await loadCustomerPlans();
+ }catch(error){showOnly("login");message("تعذر تحميل الحساب: "+error.message)}
 }
 
 async function loadAdminUsers(){
- const output=$("adminUsers");
- output.textContent="جاري تحميل المستخدمين...";
-
+ const output=$("adminUsers");output.textContent="جاري تحميل المستخدمين...";
  try{
   const {data:{user},error:authError}=await db.auth.getUser();
-
-  if(authError||!user||user.app_metadata?.role!=="admin"){
-   showLogin();
-   return;
-  }
-
-  const {data,error}=await db
-   .from("profiles")
-   .select("id,full_name,phone,whatsapp,status")
-   .order("created_at",{ascending:false});
-
-  if(error) throw error;
-
-  output.innerHTML="";
-
-  if(!data||data.length===0){
-   output.textContent="لا يوجد مستخدمون";
-   return;
-  }
-
+  if(authError||!user||user.app_metadata?.role!=="admin"){showLogin();return}
+  const {data,error}=await db.from("profiles").select("id,full_name,phone,whatsapp,status").order("created_at",{ascending:false});
+  if(error)throw error;output.innerHTML="";
+  if(!data||data.length===0){output.textContent="لا يوجد مستخدمون";return}
   data.forEach(profile=>{
-   const card=document.createElement("div");
-   card.className="user-card";
-
-   const info=document.createElement("div");
-   info.style.whiteSpace="pre-line";
-   info.textContent=
-    "الاسم: "+(profile.full_name||"")+
-    "\nالهاتف: "+(profile.phone||"")+
-    "\nواتساب: "+(profile.whatsapp||"")+
-    "\nالحالة: "+profile.status;
-
+   const card=document.createElement("div");card.className="user-card";
+   const info=document.createElement("div");info.style.whiteSpace="pre-line";
+   info.textContent="الاسم: "+(profile.full_name||"")+"\nالهاتف: "+(profile.phone||"")+"\nواتساب: "+(profile.whatsapp||"")+"\nالحالة: "+profile.status;
    card.appendChild(info);
-
-   const actions=[
-    {label:"قبول",status:"approved"},
-    {label:"رفض",status:"rejected"},
-    {label:"إيقاف",status:"suspended"},
-    {label:"انتظار",status:"pending"}
-   ];
-
-   const actionBox=document.createElement("div");
-   actionBox.className="admin-actions";
-
+   const actions=[{label:"قبول",status:"approved"},{label:"رفض",status:"rejected"},{label:"إيقاف",status:"suspended"},{label:"انتظار",status:"pending"}];
+   const actionBox=document.createElement("div");actionBox.className="admin-actions";
    actions.forEach(action=>{
-    const btn=document.createElement("button");
-    btn.textContent=action.label;
-
-    if(action.status==="rejected"||action.status==="suspended")
-     btn.className="danger";
-
+    const btn=document.createElement("button");btn.textContent=action.label;
+    if(action.status==="rejected"||action.status==="suspended")btn.className="danger";
     btn.onclick=async()=>{
-     if(profile.id===user.id){
-      alert("لا يمكنك تغيير حالة حساب الأدمن");
-      return;
-     }
-
-     if(!confirm("هل تريد تغيير حالة هذا الحساب؟")) return;
-
+     if(profile.id===user.id){alert("لا يمكنك تغيير حالة حساب الأدمن");return}
+     if(!confirm("هل تريد تغيير حالة هذا الحساب؟"))return;
      btn.disabled=true;
-
      try{
-      const {error}=await db
-       .from("profiles")
-       .update({status:action.status})
-       .eq("id",profile.id);
-
-      if(error) throw error;
-
-      alert("تم تحديث حالة الحساب");
-      await loadAdminUsers();
-     }catch(error){
-      alert("تعذر التعديل: "+error.message);
-      btn.disabled=false;
-     }
+      const {error}=await db.from("profiles").update({status:action.status}).eq("id",profile.id);
+      if(error)throw error;alert("تم تحديث حالة الحساب");await loadAdminUsers();
+     }catch(error){alert("تعذر التعديل: "+error.message);btn.disabled=false}
     };
-
     actionBox.appendChild(btn);
    });
-
-   card.appendChild(actionBox);
-   output.appendChild(card);
+   card.appendChild(actionBox);output.appendChild(card);
   });
-
- }catch(error){
-  output.textContent="حدث خطأ: "+error.message;
- }
+ }catch(error){output.textContent="حدث خطأ: "+error.message}
 }
 
-async function logout(){
- await db.auth.signOut();
- showLogin();
- message("تم تسجيل الخروج");
+async function addPlan(){
+ const name=$("planName").value.trim(),dataAmount=$("planData").value.trim(),days=Number($("planDays").value),price=Number($("planPrice").value),currency=$("planCurrency").value.trim()||"USD",description=$("planDescription").value.trim();
+ if(!name||!dataAmount||!Number.isInteger(days)||days<1||$("planPrice").value===""||!Number.isFinite(price)||price<0){alert("أكمل بيانات الشريحة بشكل صحيح");return}
+ const {data:{user},error:authError}=await db.auth.getUser();
+ if(authError||!user||user.app_metadata?.role!=="admin"){alert("غير مسموح");return}
+ const {error}=await db.from("esim_plans").insert({name,data_amount:dataAmount,validity_days:days,price,currency,description,is_active:true});
+ if(error){alert("تعذر إضافة الشريحة: "+error.message);return}
+ ["planName","planData","planDays","planPrice","planDescription"].forEach(id=>$(id).value="");
+ alert("تمت إضافة الشريحة بنجاح");await loadAdminPlans();
 }
 
-db.auth.onAuthStateChange((event,session)=>{
- if(event==="SIGNED_OUT"){
-  showLogin();
- }
-});
+async function loadAdminPlans(){
+ const output=$("adminPlans");if(!output)return;output.textContent="جاري تحميل الشرائح...";
+ try{
+  const {data:{user},error:authError}=await db.auth.getUser();
+  if(authError||!user||user.app_metadata?.role!=="admin"){output.textContent="غير مسموح";return}
+  const {data,error}=await db.from("esim_plans").select("*").order("created_at",{ascending:false});
+  if(error)throw error;output.innerHTML="";
+  if(!data||!data.length){output.textContent="لا توجد شرائح مضافة حتى الآن";return}
+  data.forEach(plan=>{
+   const card=document.createElement("div");card.className="user-card";
+   const info=document.createElement("div");info.style.whiteSpace="pre-line";
+   info.textContent="الاسم: "+plan.name+"\nالإنترنت: "+plan.data_amount+"\nالصلاحية: "+plan.validity_days+" يوم\nالسعر: "+plan.price+" "+plan.currency+"\nالوصف: "+(plan.description||"لا يوجد")+"\nالحالة: "+(plan.is_active?"نشطة":"متوقفة");
+   card.appendChild(info);
+   const actions=document.createElement("div");actions.className="admin-actions";
+   const edit=document.createElement("button");edit.textContent="تعديل";edit.onclick=()=>editPlan(plan);
+   const toggle=document.createElement("button");toggle.textContent=plan.is_active?"إيقاف":"تفعيل";toggle.onclick=()=>togglePlan(plan);
+   const remove=document.createElement("button");remove.textContent="حذف";remove.className="danger";remove.onclick=()=>deletePlan(plan);
+   actions.append(edit,toggle,remove);card.appendChild(actions);output.appendChild(card);
+  });
+ }catch(error){output.textContent="تعذر تحميل الشرائح: "+error.message}
+}
 
-(async()=>{
- const {data:{session}}=await db.auth.getSession();
- if(session) await loadProfile();
- else showLogin();
-})();
+async function editPlan(plan){
+ const name=prompt("اسم الشريحة:",plan.name);if(name===null)return;
+ const dataAmount=prompt("حجم الإنترنت:",plan.data_amount);if(dataAmount===null)return;
+ const daysText=prompt("مدة الصلاحية بالأيام:",plan.validity_days);if(daysText===null)return;
+ const days=Number(daysText);if(!Number.isInteger(days)||days<1)return alert("مدة الصلاحية غير صحيحة");
+ const priceText=prompt("السعر:",plan.price);if(priceText===null)return;
+ const price=Number(priceText);if(!Number.isFinite(price)||price<0)return alert("السعر غير صحيح");
+ const currency=prompt("العملة:",plan.currency);if(currency===null)return;
+ const description=prompt("الوصف:",plan.description||"");if(description===null)return;
+ const {error}=await db.from("esim_plans").update({name:name.trim(),data_amount:dataAmount.trim(),validity_days:days,price,currency:currency.trim(),description:description.trim()}).eq("id",plan.id);
+ if(error){alert("تعذر التعديل: "+error.message);return}
+ alert("تم تعديل الشريحة");await loadAdminPlans();
+}
+
+async function togglePlan(plan){
+ const {error}=await db.from("esim_plans").update({is_active:!plan.is_active}).eq("id",plan.id);
+ if(error){alert("تعذر تغيير الحالة: "+error.message);return}
+ await loadAdminPlans();
+}
+
+async function deletePlan(plan){
+ if(!confirm("هل تريد حذف الشريحة "+plan.name+"؟"))return;
+ const {error}=await db.from("esim_plans").delete().eq("id",plan.id);
+ if(error){alert("تعذر الحذف: "+error.message);return}
+ await loadAdminPlans();
+}
+
+async function loadCustomerPlans(){
+ const output=$("customerPlans");if(!output)return;output.textContent="جاري تحميل الشرائح...";
+ const {data,error}=await db.from("esim_plans").select("id,name,data_amount,validity_days,price,currency,description").eq("is_active",true).order("created_at",{ascending:false});
+ if(error){output.textContent="تعذر تحميل الشرائح: "+error.message;return}
+ output.innerHTML="";
+ if(!data||!data.length){output.textContent="لا توجد شرائح متاحة حاليًا";return}
+ data.forEach(plan=>{
+  const card=document.createElement("div");card.className="plan-card";
+  const title=document.createElement("h3");title.textContent=plan.name;
+  const meta=document.createElement("div");meta.className="plan-meta";
+  meta.textContent="الإنترنت: "+plan.data_amount+" | الصلاحية: "+plan.validity_days+" يوم";
+  const price=document.createElement("div");price.className="plan-price";price.textContent=plan.price+" "+plan.currency;
+  const description=document.createElement("p");description.className="plan-description";description.textContent=plan.description||"";
+  card.append(title,meta,price,description);output.appendChild(card);
+ });
+}
+
+async function logout(){await db.auth.signOut();showLogin();message("تم تسجيل الخروج")}
+db.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT")showLogin()});
+(async()=>{const {data:{session}}=await db.auth.getSession();if(session)await loadProfile();else showLogin()})();
 </script>
 </body>
 </html>
