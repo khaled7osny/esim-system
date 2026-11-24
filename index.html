@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>eSIM System</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+
+    * { box-sizing: border-box; }
+
+    body {
+
+      margin: 0; min-height: 100vh; padding: 25px 15px;
+
+      background: linear-gradient(145deg,#080d1b,#111d35);
+
+      color: white; font-family: Arial,sans-serif;
+
+      display: flex; justify-content: center; align-items: center;
+
+    }
+
+    .container {
+
+      width: 100%; max-width: 430px; padding: 28px 22px;
+
+      background: #17233b; border: 1px solid #293b5d;
+
+      border-radius: 22px; box-shadow: 0 15px 45px #0006;
+
+    }
+
+    h1 { text-align: center; margin: 5px 0; color: #55d6c2; }
+
+    .subtitle { text-align: center; color: #a9b8d0; margin-bottom: 25px; }
+
+    input {
+
+      width: 100%; padding: 15px; margin: 8px 0;
+
+      border: 1px solid #354967; border-radius: 10px;
+
+      background: #0e192d; color: white; font-size: 16px;
+
+    }
+
+    button {
+
+      width: 100%; padding: 15px; margin-top: 12px;
+
+      border: 0; border-radius: 10px; font-size: 16px;
+
+      font-weight: bold; cursor: pointer;
+
+      background: #35c6ad; color: #071b22;
+
+    }
+
+    button.secondary { background: #293c5b; color: white; }
+
+    button:disabled { opacity: .5; }
+
+    .hidden { display: none; }
+
+    #message {
+
+      margin-top: 16px; padding: 12px; border-radius: 9px;
+
+      background: #0e192d; color: #d7e7ff;
+
+      line-height: 1.7; text-align: center;
+
+    }
+
+    .status {
+
+      margin-top: 18px; padding: 18px; text-align: center;
+
+      background: #0e192d; border-radius: 12px; line-height: 2;
+
+    }
+
+    .small { color: #a9b8d0; font-size: 13px; text-align: center; }
+
+  </style>
+
+</head>
+
+<body>
+
+  <main class="container">
+
+    <h1>eSIM SYSTEM</h1>
+
+    <p class="subtitle">مرحباً بك في نظام إدارة الحسابات</p>
+
+    <section id="login">
+
+      <h3>تسجيل الدخول</h3>
+
+      <input id="loginEmail" type="email" placeholder="البريد الإلكتروني">
+
+      <input id="loginPassword" type="password" placeholder="كلمة المرور">
+
+      <button onclick="login()">دخول</button>
+
+      <button class="secondary" onclick="showRegister()">إنشاء حساب جديد</button>
+
+    </section>
+
+    <section id="register" class="hidden">
+
+      <h3>إنشاء حساب جديد</h3>
+
+      <input id="fullName" placeholder="الاسم بالكامل">
+
+      <input id="phone" type="tel" placeholder="رقم الهاتف">
+
+      <input id="whatsapp" type="tel" placeholder="رقم الواتساب">
+
+      <input id="regEmail" type="email" placeholder="البريد الإلكتروني">
+
+      <input id="regPassword" type="password" placeholder="كلمة المرور (6 أحرف على الأقل)">
+
+      <button onclick="register()">إنشاء الحساب</button>
+
+      <button class="secondary" onclick="showLogin()">العودة لتسجيل الدخول</button>
+
+    </section>
+
+    <section id="account" class="hidden">
+
+      <h3>حسابي</h3>
+
+      <div id="profileInfo" class="status">جاري تحميل بيانات الحساب...</div>
+
+      <button class="secondary" onclick="logout()">تسجيل الخروج</button>
+
+    </section>
+
+    <div id="message" class="hidden"></div>
+
+    <p class="small">eSIM System © 2026</p>
+
+  </main>
+
+<script>
+
+  // ضع بيانات مشروع Supabase هنا
+
+  const SUPABASE_URL = "https://ldvacfkwoqufhmcdtyqw.supabase.co";
+
+  const SUPABASE_KEY = "sb_publishable_2nvmFr16JSlT6sOZIzSxbA_vl9M3EpS";
+
+  const db = window.supabase.createClient(
+
+    SUPABASE_URL,
+
+    SUPABASE_KEY
+
+  );
+
+  const $ = id => document.getElementById(id);
+
+  function message(text) {
+
+    $("message").textContent = text;
+
+    $("message").classList.remove("hidden");
+
+  }
+
+  function hideMessage() {
+
+    $("message").classList.add("hidden");
+
+  }
+
+  function showLogin() {
+
+    $("login").classList.remove("hidden");
+
+    $("register").classList.add("hidden");
+
+    $("account").classList.add("hidden");
+
+    hideMessage();
+
+  }
+
+  function showRegister() {
+
+    $("login").classList.add("hidden");
+
+    $("register").classList.remove("hidden");
+
+    $("account").classList.add("hidden");
+
+    hideMessage();
+
+  }
+
+  async function register() {
+
+    hideMessage();
+
+    const fullName = $("fullName").value.trim();
+
+    const phone = $("phone").value.trim();
+
+    const whatsapp = $("whatsapp").value.trim();
+
+    const email = $("regEmail").value.trim();
+
+    const password = $("regPassword").value;
+
+    if (!fullName || !phone || !whatsapp || !email || !password) {
+
+      return message("من فضلك أكمل جميع البيانات");
+
+    }
+
+    if (password.length < 6) {
+
+      return message("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
+
+    }
+
+    try {
+
+      const { data, error } = await db.auth.signUp({
+
+        email,
+
+        password,
+
+        options: {
+
+          data: {
+
+            full_name: fullName,
+
+            phone: phone,
+
+            whatsapp: whatsapp
+
+          }
+
+        }
+
+      });
+
+      if (error) throw error;
+
+      if (!data.session) {
+
+        message("تم إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب، ثم سجل الدخول.");
+
+      } else {
+
+        message("تم إنشاء الحساب بنجاح");
+
+        await loadProfile();
+
+      }
+
+    } catch (error) {
+
+      message("تعذر إنشاء الحساب: " + error.message);
+
+    }
+
+  }
+
+  async function login() {
+
+    hideMessage();
+
+    const email = $("loginEmail").value.trim();
+
+    const password = $("loginPassword").value;
+
+    if (!email || !password) {
+
+      return message("اكتب البريد الإلكتروني وكلمة المرور");
+
+    }
+
+    try {
+
+      const { error } = await db.auth.signInWithPassword({
+
+        email, password
+
+      });
+
+      if (error) throw error;
+
+      await loadProfile();
+
+    } catch (error) {
+
+      message("تعذر تسجيل الدخول: " + error.message);
+
+    }
+
+  }
+
+  async function loadProfile() {
+
+    const { data: { user } } = await db.auth.getUser();
+
+    if (!user) return showLogin();
+
+    $("login").classList.add("hidden");
+
+    $("register").classList.add("hidden");
+
+    $("account").classList.remove("hidden");
+
+    $("profileInfo").textContent = "جاري تحميل بيانات الحساب...";
+
+    try {
+
+      const { data, error } = await db
+
+        .from("profiles")
+
+        .select("full_name, phone, whatsapp, status")
+
+        .eq("id", user.id)
+
+        .single();
+
+      if (error) throw error;
+
+      const statuses = {
+
+        pending: "طلبك قيد المراجعة، انتظر موافقة الإدارة.",
+
+        approved: "تم قبول حسابك بنجاح.",
+
+        rejected: "تم رفض طلب الحساب. تواصل مع الإدارة.",
+
+        suspended: "حسابك موقوف حالياً. تواصل مع الإدارة."
+
+      };
+
+      $("profileInfo").textContent =
+
+        "الاسم: " + (data.full_name || "غير مسجل") +
+
+        "\nالهاتف: " + (data.phone || "غير مسجل") +
+
+        "\nالواتساب: " + (data.whatsapp || "غير مسجل") +
+
+        "\nالحالة: " + (statuses[data.status] || "غير محددة");
+
+      $("profileInfo").style.whiteSpace = "pre-line";
+
+    } catch (error) {
+
+      $("profileInfo").textContent =
+
+        "لم نتمكن من تحميل بيانات الحساب. " + error.message;
+
+    }
+
+  }
+
+  async function logout() {
+
+    await db.auth.signOut();
+
+    showLogin();
+
+    message("تم تسجيل الخروج");
+
+  }
+
+  db.auth.onAuthStateChange((event, session) => {
+
+    if (event === "SIGNED_OUT") showLogin();
+
+  });
+
+  (async () => {
+
+    const { data: { session } } = await db.auth.getSession();
+
+    if (session) await loadProfile();
+
+  })();
+
+</script>
+
+</body>
+
+</html>
