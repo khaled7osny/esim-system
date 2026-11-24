@@ -11,7 +11,7 @@
 :root{--bg:#090817;--panel:#121128;--panel2:#191634;--purple:#9255ff;--purple2:#bd8aff;--text:#fff;--muted:#aaa5c4;--border:#30264c;--green:#39dfb0;--red:#ff557b}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;padding:22px 13px;background:radial-gradient(ellipse at 15% 5%,#48208055,transparent 42%),radial-gradient(ellipse at 90% 65%,#30208044,transparent 40%),var(--bg);color:var(--text);font-family:'Cairo',Arial,sans-serif}
-button,input{font-family:inherit}
+button,input,textarea{font-family:inherit}
 .container{width:100%;max-width:650px;margin:auto;padding:23px 17px;background:linear-gradient(155deg,#17142e,#100f21 75%);border:1px solid var(--border);border-radius:25px;box-shadow:0 25px 80px #0008,0 0 35px #7638d522;overflow:hidden}
 .brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:7px}
 .brand-icon{width:43px;height:43px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,#a35bff,#5425b7);box-shadow:0 0 25px #9255ff66;font-size:23px}
@@ -19,9 +19,10 @@ h1{margin:0;font-size:27px;font-weight:900;letter-spacing:1px;background:linear-
 .subtitle{text-align:center;color:var(--muted);font-size:13px;margin:0 0 25px}
 h2{text-align:center;font-size:23px;margin:12px 0;color:#d7bdff}
 h3{margin:5px 0 12px}
-input{width:100%;padding:15px;margin:8px 0;border:1px solid #3b3159;border-radius:13px;background:#0c0b1b;color:white;font-size:15px;outline:none;transition:.25s}
-input:focus{border-color:var(--purple);box-shadow:0 0 0 3px #9255ff22}
-input::placeholder{color:#77728e}
+input,textarea{width:100%;padding:15px;margin:8px 0;border:1px solid #3b3159;border-radius:13px;background:#0c0b1b;color:white;font-size:15px;outline:none;transition:.25s}
+textarea{min-height:85px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px #9255ff22}
+input::placeholder,textarea::placeholder{color:#77728e}
 button{width:100%;padding:14px;margin-top:10px;border:0;border-radius:13px;font-size:15px;font-weight:800;cursor:pointer;color:white;background:linear-gradient(110deg,#7439d9,#a45cff);box-shadow:0 7px 23px #793bca35;transition:.2s}
 button:active{transform:scale(.98)}
 button.secondary{background:#27213f;border:1px solid #463765;box-shadow:none}
@@ -58,6 +59,14 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .qr-help{color:#c2b8d9;font-size:13px;line-height:2;text-align:center}
 .file-input{padding:12px;background:#0c0b1b}
 .activation-panel{margin-top:15px;padding:16px;border:1px solid #60418e;border-radius:16px;background:#17142d}
+.chat-box{margin-top:12px;padding:15px;border:1px solid #493267;border-radius:16px;background:#151329}
+.chat-messages{height:260px;overflow-y:auto;padding:10px;background:#0c0b1b;border-radius:12px}
+.chat-msg{max-width:88%;padding:9px 12px;margin:8px 0;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.8}
+.chat-msg.customer{background:#30204c;margin-right:auto}
+.chat-msg.admin{background:#174237;margin-left:auto}
+.chat-meta{display:block;font-size:10px;color:#b8aecb;margin-top:3px}
+.chat-empty{color:#aaa5c4;text-align:center;font-size:13px;padding:20px}
+.chat-conversation{width:100%;text-align:right;background:#21183b;border:1px solid #493267;margin:7px 0;padding:12px}
 @media(max-width:390px){.container{padding:19px 12px}.hero h2{font-size:23px}}
 </style>
 </head>
@@ -90,6 +99,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <section id="waitingPanel" class="hidden">
  <div class="hero"><span class="hero-tag">ACCOUNT STATUS</span><h2 id="waitingTitle">طلبك قيد المراجعة</h2><p>نشكرك على اختيار eSIM PRO</p></div>
  <div id="waitingText" class="card status"></div>
+ <a href="https://wa.me/201555616119" target="_blank" rel="noopener"><button>تواصل مع الدعم عبر واتساب</button></a>
  <button class="secondary" onclick="logout()">تسجيل الخروج</button>
 </section>
 
@@ -99,11 +109,32 @@ button:disabled{opacity:.5;cursor:not-allowed}
  <div class="section-title"><span>✦</span> شرائح eSIM المتاحة</div>
  <div id="customerPlans"><div class="card">جاري تحميل الشرائح...</div></div>
  <div id="activationPanel" class="activation-panel hidden">
-  <h3 style="text-align:center;color:#dfcaff">تفعيل شريحة eSIM</h3>
-  <p class="qr-help">امسح رمز QR من إعدادات إضافة eSIM في هاتفك، ثم اتبع خطوات التأكيد التي تظهر على الجهاز.</p>
+  <h3 style="text-align:center;color:#dfcaff">خطوات التفعيل</h3>
+  <div class="info-box">
+   <strong>1.</strong> حمّل تطبيق VPNIFY من App Store.<br>
+   <strong>2.</strong> افتح التطبيق واتصل بأي دولة/سيرفر متاح.<br>
+   <strong>3.</strong> أوقف الشريحة الأساسية مؤقتًا من إعدادات الهاتف.<br>
+   <strong>4.</strong> أضف شريحة eSIM باستخدام رمز QR الموجود بالأسفل واتبع تعليمات الآيفون.<br>
+   <strong>5.</strong> بعد إتمام الإضافة، أعد تشغيل الشريحة الأساسية.
+  </div>
+  <a href="https://apps.apple.com/us/app/vpnify-unlimited-vpn/id1503251395" target="_blank" rel="noopener"><button>تحميل VPNIFY من App Store</button></a>
+  <p class="qr-help">رمز التفعيل:</p>
   <img id="activationQrImage" class="qr-image" alt="رمز تفعيل eSIM">
-  <p class="qr-help">إذا كنت تفتح الموقع على نفس الآيفون، اعرض الرمز على جهاز آخر لمسحه، أو استخدم طريقة التثبيت التي يوفرها مزوّد الخدمة.</p>
+  <p class="qr-help">إذا كنت تفتح الموقع على نفس الآيفون، اعرض الرمز على جهاز آخر لمسحه، أو استخدم طريقة التثبيت اليدوي التي يوفرها مزوّد الخدمة. قد تختلف خطوات الاتصال حسب تعليمات المزوّد.</p>
+  <div class="note">هذه خطوات الخدمة المقترحة وليست ضمانًا لقبول رمز التفعيل. لا تحذف شريحتك الأساسية أو أي eSIM موجودة إلا إذا طلب منك مزوّد الخدمة ذلك صراحةً.</div>
   <button class="secondary" onclick="hideActivationQR()">إغلاق</button>
+ </div>
+ <div class="section-title"><span>✦</span> خدمة العملاء</div>
+ <div class="card">
+  <p>تواصل معنا عبر واتساب أو أرسل رسالة مباشرة من داخل الموقع.</p>
+  <a href="https://wa.me/201555616119?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20eSIM%20PRO" target="_blank" rel="noopener"><button>واتساب خدمة العملاء</button></a>
+  <div class="chat-box">
+   <h3>الشات المباشر</h3>
+   <div id="customerChatMessages" class="chat-messages"><div class="chat-empty">جاري تحميل الرسائل...</div></div>
+   <textarea id="customerChatInput" maxlength="3000" placeholder="اكتب رسالتك هنا..."></textarea>
+   <button id="customerSendButton" onclick="sendCustomerMessage()">إرسال الرسالة</button>
+   <p class="qr-help">يتم تحديث الرسائل تلقائيًا كل 10 ثوانٍ أثناء فتح الصفحة.</p>
+  </div>
  </div>
  <div class="section-title"><span>✦</span> تعليمات مهمة</div>
  <div class="card"><p>• تأكد من اتصال هاتفك بالإنترنت.</p><p>• تأكد أن جهازك يدعم تقنية eSIM.</p><p>• لا تحذف الشريحة من جهازك إلا بعد الرجوع للإدارة.</p><p>• اتبع تعليمات التفعيل التي توفرها الإدارة.</p></div>
@@ -116,6 +147,20 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <section id="adminPanel" class="hidden">
  <div class="hero"><span class="hero-tag">ADMIN CONTROL CENTER</span><h2>لوحة الإدارة</h2><p>إدارة حسابات وشرائح مستخدمي eSIM PRO</p></div>
  <div class="card status"><span class="online">● ADMIN ACCESS</span><h3>أهلاً بك في لوحة الإدارة</h3><p>إدارة ومراجعة حسابات العملاء وشرائح eSIM.</p></div>
+
+ <div class="section-title"><span>✦</span> الشات وخدمة العملاء</div>
+ <div class="card">
+  <p class="qr-help">اختر محادثة عميل لعرض الرسائل والرد عليها.</p>
+  <button class="secondary" onclick="loadAdminSupportMessages()">↻ تحديث المحادثات</button>
+  <div id="adminConversations"><div class="chat-empty">جاري تحميل المحادثات...</div></div>
+  <div id="adminChatArea" class="chat-box hidden">
+   <h3 id="adminChatTitle">محادثة العميل</h3>
+   <div id="adminChatMessages" class="chat-messages"></div>
+   <textarea id="adminChatInput" maxlength="3000" placeholder="اكتب ردك للعميل..."></textarea>
+   <button id="adminSendButton" onclick="sendAdminMessage()">إرسال الرد</button>
+  </div>
+  <a href="https://wa.me/201555616119" target="_blank" rel="noopener"><button>فتح واتساب الدعم</button></a>
+ </div>
 
  <div class="section-title"><span>✦</span> رمز QR المشترك للتفعيل</div>
  <div class="card">
@@ -146,7 +191,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
  <button class="secondary" onclick="logout()">تسجيل الخروج</button>
 </section>
 
-<footer class="small">eSIM PRO © 2026<br>PREMIUM DIGITAL CONNECTIVITY</footer>
+<footer class="small">eSIM PRO © 2026<br>PREMIUM DIGITAL CONNECTIVITY<br><strong>Powered by Khaled Hosny</strong></footer>
 </main>
 
 <script>
@@ -155,11 +200,14 @@ const SUPABASE_KEY="sb_publishable_2nvmFr16JSlT6sOZIzSxbA_vl9M3EpS";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const $=id=>document.getElementById(id);
 const panels=["login","register","waitingPanel","customerPanel","adminPanel"];
+let currentUser=null;
+let selectedSupportUserId=null;
+let supportPollTimer=null;
 
 function showOnly(id){panels.forEach(p=>$(p).classList.add("hidden"));$(id).classList.remove("hidden");hideMessage()}
 function message(text){$("message").textContent=text;$("message").classList.remove("hidden")}
 function hideMessage(){$("message").classList.add("hidden")}
-function showLogin(){showOnly("login")}
+function showLogin(){stopSupportPolling();currentUser=null;showOnly("login")}
 function showRegister(){showOnly("register")}
 
 async function register(){
@@ -192,11 +240,12 @@ function checkDevice(){
 async function loadProfile(){
  try{
   const {data:{user},error:authError}=await db.auth.getUser();if(authError)throw authError;if(!user)return showLogin();
-  if(user.app_metadata?.role==="admin"){showOnly("adminPanel");await loadAdminUsers();await loadAdminPlans();await loadAdminQR();return}
+  currentUser=user;
+  if(user.app_metadata?.role==="admin"){showOnly("adminPanel");await loadAdminUsers();await loadAdminPlans();await loadAdminQR();await loadAdminSupportMessages();startSupportPolling();return}
   const {data,error}=await db.from("profiles").select("full_name,phone,whatsapp,status").eq("id",user.id).single();
   if(error)throw error;
   if(data.status!=="approved"){
-   showOnly("waitingPanel");
+   stopSupportPolling();showOnly("waitingPanel");
    const statusInfo={
     pending:{title:"حسابك قيد المراجعة",text:"تم استلام طلبك بنجاح. انتظر موافقة الإدارة لتفعيل حسابك."},
     rejected:{title:"تم رفض الحساب",text:"تم رفض طلب حسابك. يرجى التواصل مع الإدارة."},
@@ -209,6 +258,8 @@ async function loadProfile(){
   $("customerName").textContent=data.full_name||"عميلنا العزيز";
   $("customerInfo").textContent="الاسم: "+(data.full_name||"غير مسجل")+" | الهاتف: "+(data.phone||"غير مسجل")+" | الواتساب: "+(data.whatsapp||"غير مسجل");
   await loadCustomerPlans();
+  await loadCustomerSupportMessages();
+  startSupportPolling();
  }catch(error){showOnly("login");message("تعذر تحميل الحساب: "+error.message)}
 }
 
@@ -249,11 +300,6 @@ async function loadAdminUsers(){
 const QR_BUCKET="esim-assets";
 const QR_PATH="activation/qr-code";
 
-function getQRPublicUrl(){
- const {data}=db.storage.from(QR_BUCKET).getPublicUrl(QR_PATH+".png");
- return data.publicUrl;
-}
-
 async function loadAdminQR(){
  const status=$("adminQrStatus"),preview=$("adminQrPreview");
  if(!status||!preview)return;
@@ -275,7 +321,6 @@ async function uploadActivationQR(){
  const path=QR_PATH;
  const {error}=await db.storage.from(QR_BUCKET).upload(path,file,{upsert:true,contentType:file.type,cacheControl:"0"});
  if(error){alert("تعذر رفع QR: "+error.message);return;}
- // Keep a small metadata pointer so the customer can load the correct image extension.
  const {error:metaError}=await db.from("esim_qr_settings").upsert({id:1,object_path:path,updated_at:new Date().toISOString()},{onConflict:"id"});
  if(metaError){alert("تم رفع الصورة لكن تعذر حفظ إعدادها: "+metaError.message);return;}
  alert("تم حفظ QR بنجاح");$("activationQrFile").value="";await loadAdminQR();
@@ -369,8 +414,97 @@ async function loadCustomerPlans(){
  });
 }
 
-async function logout(){await db.auth.signOut();showLogin();message("تم تسجيل الخروج")}
-db.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT")showLogin()});
+/* Support chat: messages are append-only; RLS controls which user can read/send. */
+function stopSupportPolling(){if(supportPollTimer){clearInterval(supportPollTimer);supportPollTimer=null}}
+function startSupportPolling(){
+ stopSupportPolling();
+ supportPollTimer=setInterval(async()=>{
+  if(!currentUser)return;
+  if(currentUser.app_metadata?.role==="admin"){
+   await loadAdminSupportMessages();
+   if(selectedSupportUserId)await loadAdminConversation(selectedSupportUserId,false);
+  }else{
+   await loadCustomerSupportMessages();
+  }
+ },10000);
+}
+function formatChatTime(value){
+ const date=new Date(value);
+ if(Number.isNaN(date.getTime()))return "";
+ return date.toLocaleString("ar-EG",{dateStyle:"short",timeStyle:"short"});
+}
+function renderChatMessages(container,messages,ownRole){
+ container.innerHTML="";
+ if(!messages||!messages.length){const empty=document.createElement("div");empty.className="chat-empty";empty.textContent="لا توجد رسائل حتى الآن. ابدأ المحادثة برسالتك الأولى.";container.appendChild(empty);return}
+ messages.forEach(item=>{
+  const bubble=document.createElement("div");
+  bubble.className="chat-msg "+(item.sender_role===ownRole?"customer":"admin");
+  const body=document.createElement("div");body.textContent=item.body;
+  const meta=document.createElement("span");meta.className="chat-meta";
+  meta.textContent=(item.sender_role==="admin"?"الدعم":"العميل")+" • "+formatChatTime(item.created_at);
+  bubble.append(body,meta);container.appendChild(bubble);
+ });
+ container.scrollTop=container.scrollHeight;
+}
+async function loadCustomerSupportMessages(){
+ if(!currentUser)return;
+ const box=$("customerChatMessages");
+ const {data,error}=await db.from("support_messages").select("id,sender_role,body,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:true});
+ if(error){box.textContent="تعذر تحميل الرسائل: "+error.message;return}
+ renderChatMessages(box,data,"customer");
+}
+async function sendCustomerMessage(){
+ const input=$("customerChatInput"),button=$("customerSendButton"),body=input.value.trim();
+ if(!body)return;
+ if(!currentUser){alert("سجّل الدخول أولاً");return}
+ button.disabled=true;
+ const {error}=await db.from("support_messages").insert({user_id:currentUser.id,sender_role:"customer",body});
+ button.disabled=false;
+ if(error){alert("تعذر إرسال الرسالة: "+error.message);return}
+ input.value="";await loadCustomerSupportMessages();
+}
+async function loadAdminSupportMessages(){
+ const output=$("adminConversations");if(!output)return;
+ const {data:messages,error}=await db.from("support_messages").select("user_id,body,sender_role,created_at").order("created_at",{ascending:false}).limit(500);
+ if(error){output.textContent="تعذر تحميل المحادثات: "+error.message;return}
+ const latestByUser=new Map();
+ (messages||[]).forEach(msg=>{if(!latestByUser.has(msg.user_id))latestByUser.set(msg.user_id,msg)});
+ const ids=[...latestByUser.keys()];
+ if(!ids.length){output.innerHTML='<div class="chat-empty">لا توجد محادثات حتى الآن.</div>';return}
+ const {data:profiles,error:profileError}=await db.from("profiles").select("id,full_name,phone").in("id",ids);
+ if(profileError){output.textContent="تعذر تحميل بيانات العملاء: "+profileError.message;return}
+ const profileMap=new Map((profiles||[]).map(p=>[p.id,p]));
+ output.innerHTML="";
+ ids.forEach(id=>{
+  const p=profileMap.get(id)||{};
+  const latest=latestByUser.get(id);
+  const btn=document.createElement("button");btn.className="chat-conversation";
+  const name=p.full_name||"عميل";
+  btn.textContent=name+" — "+(p.phone||"بدون رقم")+"\nآخر رسالة: "+String(latest.body||"").slice(0,90);
+  btn.onclick=()=>{selectedSupportUserId=id;$("adminChatArea").classList.remove("hidden");$("adminChatTitle").textContent="محادثة: "+name;loadAdminConversation(id,true)};
+  output.appendChild(btn);
+ });
+}
+async function loadAdminConversation(userId,scroll){
+ const box=$("adminChatMessages");
+ const {data,error}=await db.from("support_messages").select("id,sender_role,body,created_at").eq("user_id",userId).order("created_at",{ascending:true});
+ if(error){box.textContent="تعذر تحميل المحادثة: "+error.message;return}
+ renderChatMessages(box,data,"admin");
+ if(!scroll)box.scrollTop=box.scrollHeight;
+}
+async function sendAdminMessage(){
+ const input=$("adminChatInput"),button=$("adminSendButton"),body=input.value.trim();
+ if(!body)return;
+ if(!selectedSupportUserId){alert("اختر محادثة عميل أولاً");return}
+ button.disabled=true;
+ const {error}=await db.from("support_messages").insert({user_id:selectedSupportUserId,sender_role:"admin",body});
+ button.disabled=false;
+ if(error){alert("تعذر إرسال الرد: "+error.message);return}
+ input.value="";await loadAdminConversation(selectedSupportUserId,true);await loadAdminSupportMessages();
+}
+
+async function logout(){stopSupportPolling();currentUser=null;await db.auth.signOut();showLogin();message("تم تسجيل الخروج")}
+db.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT"){stopSupportPolling();currentUser=null;showLogin()}});
 (async()=>{const {data:{session}}=await db.auth.getSession();if(session)await loadProfile();else showLogin()})();
 </script>
 </body>
