@@ -54,6 +54,10 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .plan-price{font-size:21px;font-weight:900;color:#cba6ff}
 .plan-meta{color:#c2b8d9;font-size:13px;line-height:2}
 .plan-description{color:#aaa5c4;font-size:13px}
+.qr-image{display:block;width:100%;max-width:320px;margin:14px auto;border-radius:14px;background:#fff;padding:8px}
+.qr-help{color:#c2b8d9;font-size:13px;line-height:2;text-align:center}
+.file-input{padding:12px;background:#0c0b1b}
+.activation-panel{margin-top:15px;padding:16px;border:1px solid #60418e;border-radius:16px;background:#17142d}
 @media(max-width:390px){.container{padding:19px 12px}.hero h2{font-size:23px}}
 </style>
 </head>
@@ -94,6 +98,13 @@ button:disabled{opacity:.5;cursor:not-allowed}
  <div class="hero"><span class="hero-tag">WELCOME BACK</span><h2>أهلاً بك،<br><span id="customerName"></span></h2><p>ابدأ تجربة الاتصال الرقمية الخاصة بك.</p><div class="hero-orb"></div></div>
  <div class="section-title"><span>✦</span> شرائح eSIM المتاحة</div>
  <div id="customerPlans"><div class="card">جاري تحميل الشرائح...</div></div>
+ <div id="activationPanel" class="activation-panel hidden">
+  <h3 style="text-align:center;color:#dfcaff">تفعيل شريحة eSIM</h3>
+  <p class="qr-help">امسح رمز QR من إعدادات إضافة eSIM في هاتفك، ثم اتبع خطوات التأكيد التي تظهر على الجهاز.</p>
+  <img id="activationQrImage" class="qr-image" alt="رمز تفعيل eSIM">
+  <p class="qr-help">إذا كنت تفتح الموقع على نفس الآيفون، اعرض الرمز على جهاز آخر لمسحه، أو استخدم طريقة التثبيت التي يوفرها مزوّد الخدمة.</p>
+  <button class="secondary" onclick="hideActivationQR()">إغلاق</button>
+ </div>
  <div class="section-title"><span>✦</span> تعليمات مهمة</div>
  <div class="card"><p>• تأكد من اتصال هاتفك بالإنترنت.</p><p>• تأكد أن جهازك يدعم تقنية eSIM.</p><p>• لا تحذف الشريحة من جهازك إلا بعد الرجوع للإدارة.</p><p>• اتبع تعليمات التفعيل التي توفرها الإدارة.</p></div>
  <div class="section-title"><span>✦</span> فحص دعم الجهاز</div>
@@ -105,6 +116,15 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <section id="adminPanel" class="hidden">
  <div class="hero"><span class="hero-tag">ADMIN CONTROL CENTER</span><h2>لوحة الإدارة</h2><p>إدارة حسابات وشرائح مستخدمي eSIM PRO</p></div>
  <div class="card status"><span class="online">● ADMIN ACCESS</span><h3>أهلاً بك في لوحة الإدارة</h3><p>إدارة ومراجعة حسابات العملاء وشرائح eSIM.</p></div>
+
+ <div class="section-title"><span>✦</span> رمز QR المشترك للتفعيل</div>
+ <div class="card">
+  <p class="qr-help">ارفع صورة رمز QR مرة واحدة. سيظهر الرمز نفسه لكل العملاء عند الضغط على «تفعيل الآن».</p>
+  <input id="activationQrFile" class="file-input" type="file" accept="image/png,image/jpeg,image/webp">
+  <button onclick="uploadActivationQR()">حفظ رمز QR</button>
+  <div id="adminQrStatus" class="qr-help">لم يتم تحميل حالة الرمز بعد.</div>
+  <img id="adminQrPreview" class="qr-image hidden" alt="معاينة رمز QR المحفوظ">
+ </div>
 
  <div class="section-title"><span>✦</span> إضافة شريحة جديدة</div>
  <div class="card">
@@ -172,7 +192,7 @@ function checkDevice(){
 async function loadProfile(){
  try{
   const {data:{user},error:authError}=await db.auth.getUser();if(authError)throw authError;if(!user)return showLogin();
-  if(user.app_metadata?.role==="admin"){showOnly("adminPanel");await loadAdminUsers();await loadAdminPlans();return}
+  if(user.app_metadata?.role==="admin"){showOnly("adminPanel");await loadAdminUsers();await loadAdminPlans();await loadAdminQR();return}
   const {data,error}=await db.from("profiles").select("full_name,phone,whatsapp,status").eq("id",user.id).single();
   if(error)throw error;
   if(data.status!=="approved"){
@@ -225,6 +245,51 @@ async function loadAdminUsers(){
   });
  }catch(error){output.textContent="حدث خطأ: "+error.message}
 }
+
+const QR_BUCKET="esim-assets";
+const QR_PATH="activation/qr-code";
+
+function getQRPublicUrl(){
+ const {data}=db.storage.from(QR_BUCKET).getPublicUrl(QR_PATH+".png");
+ return data.publicUrl;
+}
+
+async function loadAdminQR(){
+ const status=$("adminQrStatus"),preview=$("adminQrPreview");
+ if(!status||!preview)return;
+ try{
+  const {data,error}=await db.from("esim_qr_settings").select("object_path").eq("id",1).maybeSingle();
+  if(error)throw error;
+  if(data?.object_path){const {data:publicData}=db.storage.from(QR_BUCKET).getPublicUrl(data.object_path);preview.src=publicData.publicUrl+"?v="+Date.now();preview.classList.remove("hidden");status.textContent="يوجد رمز QR محفوظ وسيظهر للعملاء.";}
+  else{preview.classList.add("hidden");status.textContent="لم يتم رفع رمز QR حتى الآن.";}
+ }catch(error){status.textContent="تعذر قراءة حالة الرمز: "+error.message;}
+}
+
+async function uploadActivationQR(){
+ const file=$("activationQrFile").files[0];
+ if(!file){alert("اختار صورة QR أولاً");return;}
+ if(!["image/png","image/jpeg","image/webp"].includes(file.type)){alert("ارفع صورة PNG أو JPG أو WEBP فقط");return;}
+ if(file.size>5*1024*1024){alert("حجم الصورة يجب ألا يتجاوز 5 ميجابايت");return;}
+ const {data:{user},error:authError}=await db.auth.getUser();
+ if(authError||!user||user.app_metadata?.role!=="admin"){alert("غير مسموح");return;}
+ const path=QR_PATH;
+ const {error}=await db.storage.from(QR_BUCKET).upload(path,file,{upsert:true,contentType:file.type,cacheControl:"0"});
+ if(error){alert("تعذر رفع QR: "+error.message);return;}
+ // Keep a small metadata pointer so the customer can load the correct image extension.
+ const {error:metaError}=await db.from("esim_qr_settings").upsert({id:1,object_path:path,updated_at:new Date().toISOString()},{onConflict:"id"});
+ if(metaError){alert("تم رفع الصورة لكن تعذر حفظ إعدادها: "+metaError.message);return;}
+ alert("تم حفظ QR بنجاح");$("activationQrFile").value="";await loadAdminQR();
+}
+
+async function showActivationQR(){
+ const panel=$("activationPanel"),img=$("activationQrImage");
+ const {data,error}=await db.from("esim_qr_settings").select("object_path").eq("id",1).maybeSingle();
+ if(error){alert("تعذر تحميل إعداد التفعيل: "+error.message);return;}
+ if(!data?.object_path){alert("رمز التفعيل غير متاح حاليًا. تواصل مع الإدارة.");return;}
+ const {data:publicData}=db.storage.from(QR_BUCKET).getPublicUrl(data.object_path);
+ img.src=publicData.publicUrl+"?v="+Date.now();panel.classList.remove("hidden");panel.scrollIntoView({behavior:"smooth",block:"center"});
+}
+function hideActivationQR(){$("activationPanel").classList.add("hidden");}
 
 async function addPlan(){
  const name=$("planName").value.trim(),dataAmount=$("planData").value.trim(),days=Number($("planDays").value),price=Number($("planPrice").value),currency=$("planCurrency").value.trim()||"USD",description=$("planDescription").value.trim();
@@ -299,7 +364,8 @@ async function loadCustomerPlans(){
   meta.textContent="الإنترنت: "+plan.data_amount+" | الصلاحية: "+plan.validity_days+" يوم";
   const price=document.createElement("div");price.className="plan-price";price.textContent=plan.price+" "+plan.currency;
   const description=document.createElement("p");description.className="plan-description";description.textContent=plan.description||"";
-  card.append(title,meta,price,description);output.appendChild(card);
+  const activate=document.createElement("button");activate.textContent="تفعيل الآن";activate.onclick=showActivationQR;
+  card.append(title,meta,price,description,activate);output.appendChild(card);
  });
 }
 
