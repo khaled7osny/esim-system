@@ -214,15 +214,82 @@ async function loadAdminUsers(){
  }catch(e){out.textContent="حدث خطأ: "+e.message}
 }
 async function loadAdminQR(){const s=$("adminQrStatus"),im=$("adminQrPreview");try{const {data,error}=await db.from("esim_qr_settings").select("object_path").eq("id",1).maybeSingle();if(error)throw error;if(data?.object_path){const {data:u,error:se}=await db.storage.from(QR_BUCKET).createSignedUrl(data.object_path,600);if(se)throw se;im.src=u.signedUrl;im.classList.remove("hidden");s.textContent="يوجد QR محفوظ. المعاينة مؤقتة للأدمن فقط."}else{im.classList.add("hidden");s.textContent="لم يتم رفع QR."}}catch(e){im.classList.add("hidden");s.textContent="تعذر قراءة حالة QR: "+e.message}}
-async function saveActivationCode(){
- const input=$("activationLpaInput"),status=$("activationCodeStatus"),code=input.value.trim();
- if(!code)return alert("أدخل كود LPA أولاً");
- const {data:{user},error:ue}=await db.auth.getUser();
- if(ue||user?.app_metadata?.role!=="admin")return alert("هذه العملية متاحة للأدمن فقط");
- status.textContent="جاري حفظ الكود بأمان...";
- const {data,error}=await db.functions.invoke("esim-activate",{body:{action:"save",activation_code:code}});
- if(error||!data?.success){status.textContent="تعذر حفظ الكود: "+(error?.message||data?.error||"خطأ غير معروف");return}
- input.value="";status.textContent="تم حفظ كود التفعيل بأمان. لن يظهر مرة أخرى في لوحة الموقع.";
+async function saveActivationCode() {
+  const input = $("activationLpaInput");
+  const status = $("activationCodeStatus");
+  const button = input?.parentElement?.querySelector("button");
+  const code = input?.value.trim() || "";
+
+  if (!code) {
+    alert("أدخل كود LPA أولاً");
+    return;
+  }
+
+  if (!/^LPA:1\$[A-Za-z0-9.-]+\$[A-Za-z0-9-]+$/.test(code)) {
+    alert("صيغة كود LPA غير صحيحة. راجع الكود.");
+    return;
+  }
+
+  if (button) button.disabled = true;
+  status.textContent = "جاري التحقق من جلسة الأدمن...";
+
+  try {
+    const {
+      data: { session },
+      error: sessionError
+    } = await db.auth.getSession();
+
+    if (sessionError) throw sessionError;
+    if (!session?.access_token) {
+      throw new Error("الجلسة منتهية. سجّل الدخول مرة أخرى.");
+    }
+
+    const {
+      data: { user },
+      error: userError
+    } = await db.auth.getUser(session.access_token);
+
+    if (userError) throw userError;
+    if (user?.app_metadata?.role !== "admin") {
+      throw new Error("الحساب الحالي ليس حساب أدمن.");
+    }
+
+    status.textContent = "جاري حفظ كود التفعيل...";
+
+    const { data, error } = await db.functions.invoke("esim-activate", {
+      body: {
+        action: "save",
+        activation_code: code
+      },
+      headers: {
+        Authorization: `Bearer ${session.access_token}`
+      }
+    });
+
+    if (error) {
+      let details = error.message;
+      try {
+        const response = error.context;
+        if (response && typeof response.json === "function") {
+          const result = await response.json();
+          details = result.error || details;
+        }
+      } catch (_) {}
+      throw new Error(details);
+    }
+
+    if (!data?.success) {
+      throw new Error(data?.error || "لم يتم حفظ الكود.");
+    }
+
+    input.value = "";
+    status.textContent = "تم حفظ كود التفعيل بنجاح.";
+  } catch (error) {
+    console.error("Save activation error:", error);
+    status.textContent = "فشل الحفظ: " + (error.message || "خطأ غير معروف");
+  } finally {
+    if (button) button.disabled = false;
+  }
 }
 async function uploadActivationQR(){const f=$("activationQrFile").files[0];if(!f)return alert("اختر صورة QR");if(!["image/png","image/jpeg","image/webp"].includes(f.type)||f.size>5*1024*1024)return alert("ارفع PNG أو JPG أو WEBP بحجم أقصى 5MB");const {data:{user}}=await db.auth.getUser();if(user?.app_metadata?.role!=="admin")return alert("غير مسموح");const {error}=await db.storage.from(QR_BUCKET).upload(QR_PATH,f,{upsert:true,contentType:f.type,cacheControl:"0"});if(error)return alert(error.message);const {error:me}=await db.from("esim_qr_settings").upsert({id:1,object_path:QR_PATH,updated_at:new Date().toISOString()},{onConflict:"id"});if(me)return alert(me.message);alert("تم حفظ QR");$("activationQrFile").value="";loadAdminQR()}
 
