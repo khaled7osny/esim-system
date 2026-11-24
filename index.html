@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -215,7 +216,7 @@ async function loadAdminUsers(){
 }
 async function loadAdminQR(){const s=$("adminQrStatus"),im=$("adminQrPreview");try{const {data,error}=await db.from("esim_qr_settings").select("object_path").eq("id",1).maybeSingle();if(error)throw error;if(data?.object_path){const {data:u,error:se}=await db.storage.from(QR_BUCKET).createSignedUrl(data.object_path,600);if(se)throw se;im.src=u.signedUrl;im.classList.remove("hidden");s.textContent="يوجد QR محفوظ. المعاينة مؤقتة للأدمن فقط."}else{im.classList.add("hidden");s.textContent="لم يتم رفع QR."}}catch(e){im.classList.add("hidden");s.textContent="تعذر قراءة حالة QR: "+e.message}}
 
-/* تم تعديل دالة حفظ LPA لمعالجة المسافات والمحارف المخفية والتحقق من أجزاء الكود */
+/* تم تعديل التحقق: نقبل صيغة LPA مع تنظيف المحارف الخفية والمسافات */
 async function saveActivationCode() {
   const input = $("activationLpaInput");
   const status = $("activationCodeStatus");
@@ -226,26 +227,20 @@ async function saveActivationCode() {
     .replace(/[\s\u200B-\u200D\uFEFF\u00A0]/g, "")
     .trim();
 
-  if (code.toUpperCase().startsWith("LPA:1$")) {
-    code = "LPA:1$" + code.substring(6);
-  }
-
   if (!code) {
     status.textContent = "أدخل كود LPA أولاً.";
     return;
   }
 
+  // السماح باختلاف حالة الأحرف في بداية LPA فقط
   const parts = code.split("$");
-
-  if (
-    parts.length !== 3 ||
-    parts[0].toUpperCase() !== "LPA:1" ||
-    !/^[A-Za-z0-9.-]+$/.test(parts[1]) ||
-    !/^[A-Za-z0-9-]+$/.test(parts[2])
-  ) {
-    status.textContent = "صيغة الكود غير صحيحة. راجع الكود المدخل.";
+  if (parts.length !== 3 || parts[0].toUpperCase() !== "LPA:1" || !parts[1] || !parts[2]) {
+    status.textContent = "صيغة الكود غير صحيحة. تأكد من وجود LPA:1 ثم عنوان الخادم ثم رمز التفعيل.";
     return;
   }
+
+  // إعادة بناء الكود بصيغته القياسية دون تغيير بيانات الخادم أو الرمز
+  code = "LPA:1$" + parts[1] + "$" + parts[2];
 
   if (button) button.disabled = true;
   status.textContent = "جاري التحقق من جلسة الأدمن...";
@@ -257,7 +252,6 @@ async function saveActivationCode() {
     } = await db.auth.getSession();
 
     if (sessionError) throw sessionError;
-
     if (!session?.access_token) {
       throw new Error("الجلسة منتهية. سجّل الدخول مرة أخرى.");
     }
@@ -268,7 +262,6 @@ async function saveActivationCode() {
     } = await db.auth.getUser(session.access_token);
 
     if (userError) throw userError;
-
     if (user?.app_metadata?.role !== "admin") {
       throw new Error("الحساب الحالي ليس حساب أدمن.");
     }
@@ -287,14 +280,12 @@ async function saveActivationCode() {
 
     if (error) {
       let details = error.message;
-
       try {
         if (error.context && typeof error.context.json === "function") {
           const result = await error.context.json();
           details = result.error || details;
         }
       } catch (_) {}
-
       throw new Error(details);
     }
 
@@ -304,7 +295,6 @@ async function saveActivationCode() {
 
     input.value = "";
     status.textContent = "تم حفظ كود التفعيل بنجاح.";
-
   } catch (error) {
     console.error("Save activation error:", error);
     status.textContent = "فشل الحفظ: " + (error.message || "خطأ غير معروف");
