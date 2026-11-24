@@ -225,7 +225,22 @@ async function saveActivationCode(){
  input.value="";status.textContent="تم حفظ كود التفعيل بأمان. لن يظهر مرة أخرى في لوحة الموقع.";
 }
 async function uploadActivationQR(){const f=$("activationQrFile").files[0];if(!f)return alert("اختر صورة QR");if(!["image/png","image/jpeg","image/webp"].includes(f.type)||f.size>5*1024*1024)return alert("ارفع PNG أو JPG أو WEBP بحجم أقصى 5MB");const {data:{user}}=await db.auth.getUser();if(user?.app_metadata?.role!=="admin")return alert("غير مسموح");const {error}=await db.storage.from(QR_BUCKET).upload(QR_PATH,f,{upsert:true,contentType:f.type,cacheControl:"0"});if(error)return alert(error.message);const {error:me}=await db.from("esim_qr_settings").upsert({id:1,object_path:QR_PATH,updated_at:new Date().toISOString()},{onConflict:"id"});if(me)return alert(me.message);alert("تم حفظ QR");$("activationQrFile").value="";loadAdminQR()}
-async function requestIndividualActivation(){
+async functionconst { data: sessionData } = await db.auth.getSession();
+const token = sessionData?.session?.access_token;
+
+if (!token) {
+  throw new Error("انتهت الجلسة، سجّل الدخول مرة أخرى.");
+}
+
+const { data, error } = await db.functions.invoke(
+  "esim-install",
+  {
+    body: { action: "install" },
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+);{
  if(!currentUser){alert("سجّل الدخول أولاً");return}
  if(!/iPhone|iPod/i.test(navigator.userAgent)){
   alert("التثبيت المباشر متاح من iPhone فقط.");return;
