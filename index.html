@@ -1,75 +1,195 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080808">
+<meta name="theme-color" content="#080604">
 <title>eSIM PRO | Premium Connectivity</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
-:root{--bg:#080808;--panel:#111214;--panel2:#191a1d;--purple:#aeb3bb;--violet:#e0e3e8;--silver:#e5e7eb;--text:#f7f7f7;--muted:#999da5;--line:#34363b;--green:#48d6a0;--red:#f16b79;--gold:#c9cbd0}
+
+:root{
+ --bg:#080604;
+ --panel:#15110b;
+ --panel2:#211a10;
+ --gold:#d6ad55;
+ --gold2:#f5d98b;
+ --gold3:#98712e;
+ --text:#fffaf0;
+ --muted:#b7aa91;
+ --line:#594728;
+ --green:#48d6a0;
+ --red:#f16b79;
+}
+
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;padding:20px 12px;background:radial-gradient(ellipse at 12% 0%,#ffffff12,transparent 38%),radial-gradient(ellipse at 100% 55%,#8b929f12,transparent 40%),linear-gradient(145deg,#080808,#111214 55%,#090909);color:var(--text);font-family:'Cairo',Arial,sans-serif}
-button,input,textarea{font-family:inherit}a{color:inherit;text-decoration:none}
-.container{width:100%;max-width:900px;margin:auto;padding:22px 17px;background:linear-gradient(150deg,#171819f5,#0e0f10f7 75%);border:1px solid #414348;border-radius:25px;box-shadow:0 28px 90px #000b,0 0 50px #ffffff08;overflow:hidden}
+body{
+ margin:0;min-height:100vh;padding:20px 12px;
+ background:
+ radial-gradient(ellipse at 12% 0%,#d6ad5520,transparent 38%),
+ radial-gradient(ellipse at 100% 55%,#a77a2918,transparent 40%),
+ linear-gradient(145deg,#080604,#171109 55%,#090704);
+ color:var(--text);font-family:'Cairo',Arial,sans-serif
+}
+button,input,textarea{font-family:inherit}
+a{color:inherit;text-decoration:none}
+
+.container{
+ width:100%;max-width:900px;margin:auto;padding:22px 17px;
+ background:linear-gradient(150deg,#21190ff5,#100d09f7 75%);
+ border:1px solid #765b2e;border-radius:25px;
+ box-shadow:0 28px 90px #000b,0 0 45px #d6ad5510;
+ overflow:hidden
+}
 .brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:7px}
-.brand-icon{width:45px;height:45px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(140deg,#f1f2f4,#747982 58%,#303238);box-shadow:0 8px 26px #0008;font-size:23px;color:#111}
-h1{margin:0;font-size:27px;font-weight:900;letter-spacing:1.2px;background:linear-gradient(90deg,#fff,#c6c9cf 55%,#858a93);-webkit-background-clip:text;color:transparent}
+.brand-icon{
+ width:45px;height:45px;display:grid;place-items:center;border-radius:15px;
+ background:linear-gradient(140deg,#fff0bd,#d6ad55 58%,#805b20);
+ box-shadow:0 8px 26px #0008;font-size:23px;color:#171006
+}
+h1{
+ margin:0;font-size:27px;font-weight:900;letter-spacing:1.2px;
+ background:linear-gradient(90deg,#fff5d8,#e0b957 55%,#98712e);
+ -webkit-background-clip:text;color:transparent
+}
 .subtitle{text-align:center;color:var(--muted);font-size:12px;letter-spacing:2px;margin:0 0 22px}
-h2{text-align:center;font-size:23px;margin:12px 0;color:#e5e7eb}h3{margin:5px 0 12px}
-input,textarea{width:100%;padding:14px;margin:8px 0;border:1px solid #42454b;border-radius:13px;background:#090a0b;color:white;font-size:15px;outline:none;transition:.22s}
-textarea{min-height:85px;resize:vertical}input:focus,textarea:focus{border-color:#d1d5db;box-shadow:0 0 0 3px #ffffff14}
-input::placeholder,textarea::placeholder{color:#858991}
-button{width:100%;padding:13px;margin-top:10px;border:1px solid transparent;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;color:#111;background:linear-gradient(110deg,#d7d9dd,#f4f4f5 60%,#aeb3bb);box-shadow:0 9px 25px #0005;transition:.2s}
-button:active{transform:scale(.985)}button.secondary{background:#202226;border:1px solid #4a4d53;box-shadow:none;color:#e5e7eb}
+h2{text-align:center;font-size:23px;margin:12px 0;color:var(--gold2)}
+h3{margin:5px 0 12px;color:var(--gold2)}
+
+input,textarea{
+ width:100%;padding:14px;margin:8px 0;border:1px solid #594728;
+ border-radius:13px;background:#0c0906;color:white;font-size:15px;
+ outline:none;transition:.22s
+}
+textarea{min-height:85px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d6ad5520}
+input::placeholder,textarea::placeholder{color:#92836a}
+
+button{
+ width:100%;padding:13px;margin-top:10px;border:1px solid transparent;
+ border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;color:#171006;
+ background:linear-gradient(110deg,#a77b2e,#f5d98b 60%,#c99b42);
+ box-shadow:0 9px 25px #0005;transition:.2s
+}
+button:active{transform:scale(.985)}
+button.secondary{
+ background:#211a10;border:1px solid #71562c;box-shadow:none;color:#f5dfaa
+}
 button.danger{background:linear-gradient(110deg,#9e3451,#d64d6d);box-shadow:0 8px 20px #a92d5630;color:white}
-button:disabled{opacity:.5;cursor:not-allowed}.hidden{display:none!important}
-.card{margin-top:14px;padding:17px;background:linear-gradient(145deg,#1b1d20,#121315);border:1px solid #383b40;border-radius:17px;line-height:1.9}
-.status{text-align:center}.small{text-align:center;color:#858991;font-size:11px;margin-top:25px;line-height:2}
-.hero{position:relative;overflow:hidden;padding:24px 19px;margin:16px 0;border:1px solid #5b5e64;border-radius:20px;background:radial-gradient(circle at 90% 10%,#ffffff18,transparent 38%),linear-gradient(135deg,#292c31,#141517 72%)}
-.hero-tag{display:inline-block;padding:5px 12px;border-radius:30px;background:#ffffff12;border:1px solid #ffffff25;color:#e5e7eb;font-size:10px;font-weight:800;letter-spacing:.8px}
-.hero h2{text-align:right;font-size:27px;line-height:1.5;color:white;margin:12px 0 5px}.hero p{color:#b8bbc1;font-size:13px;margin:5px 0}
-.hero-orb{position:absolute;width:130px;height:130px;border-radius:50%;left:-35px;top:8px;background:#ffffff0b;filter:blur(3px);box-shadow:0 0 65px #ffffff18}
-.section-title{display:flex;align-items:center;gap:9px;margin:22px 2px 10px;font-size:16px;font-weight:900;color:#edf1fa}.section-title span{color:#c7cbd2}
-.info-box{padding:14px;margin-top:12px;border:1px solid #454950;border-radius:14px;background:#202226;color:#d3d5da;font-size:13px;line-height:2}.info-box strong{color:#f0f1f3}
-.note{padding:13px;margin-top:10px;border-radius:13px;background:#292b30;color:#c8cbd1;font-size:12px;line-height:2}
-.device-box{padding:17px;margin-top:12px;border:1px solid #454950;border-radius:17px;background:linear-gradient(145deg,#202226,#151618)}.device-box p{color:var(--muted);font-size:12px}
-.device-result{margin-top:12px;padding:13px;border-radius:12px;background:#090a0b;color:#d6def0;font-size:13px;line-height:1.9}
-.user-card{background:#17191c;border:1px solid #383b40;padding:14px;margin:12px 0;border-radius:15px;line-height:2}
-.admin-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.admin-actions button{margin:0;padding:10px 5px;font-size:12px}
-.top-line{display:flex;justify-content:space-between;align-items:center;gap:10px}.online{color:var(--green);font-size:11px;font-weight:800}
-.plan-card{margin:12px 0;padding:17px;border:1px solid #555960;border-radius:17px;background:linear-gradient(145deg,#24272c,#151719);box-shadow:0 12px 30px #0005}
-.plan-card h3{color:#f0f1f3;font-size:18px}.plan-price{font-size:23px;font-weight:900;color:#e0e2e6}
-.plan-meta{color:#c3c6cc;font-size:13px;line-height:2}.plan-description{color:#9da1a9;font-size:13px}
+button:disabled{opacity:.5;cursor:not-allowed}
+.hidden{display:none!important}
+
+.card{
+ margin-top:14px;padding:17px;background:linear-gradient(145deg,#251c10,#171109);
+ border:1px solid #594728;border-radius:17px;line-height:1.9
+}
+.status{text-align:center}
+.small{text-align:center;color:#9f9075;font-size:11px;margin-top:25px;line-height:2}
+
+.hero{
+ position:relative;overflow:hidden;padding:24px 19px;margin:16px 0;
+ border:1px solid #80632f;border-radius:20px;
+ background:radial-gradient(circle at 90% 10%,#d6ad5525,transparent 38%),
+ linear-gradient(135deg,#382914,#171109 72%)
+}
+.hero-tag{
+ display:inline-block;padding:5px 12px;border-radius:30px;
+ background:#d6ad5518;border:1px solid #d6ad5545;color:#f5d98b;
+ font-size:10px;font-weight:800;letter-spacing:.8px
+}
+.hero h2{text-align:right;font-size:27px;line-height:1.5;color:#fff5d8;margin:12px 0 5px}
+.hero p{color:#c7b895;font-size:13px;margin:5px 0}
+.hero-orb{
+ position:absolute;width:130px;height:130px;border-radius:50%;left:-35px;top:8px;
+ background:#d6ad5510;filter:blur(3px);box-shadow:0 0 65px #d6ad5525
+}
+.section-title{display:flex;align-items:center;gap:9px;margin:22px 2px 10px;font-size:16px;font-weight:900;color:#fff0c5}
+.section-title span{color:var(--gold)}
+.info-box{
+ padding:14px;margin-top:12px;border:1px solid #66502c;border-radius:14px;
+ background:#21190f;color:#e2d3b2;font-size:13px;line-height:2
+}
+.info-box strong{color:#ffe6a6}
+.note{padding:13px;margin-top:10px;border-radius:13px;background:#292012;color:#d5c39d;font-size:12px;line-height:2}
+.device-box{padding:17px;margin-top:12px;border:1px solid #66502c;border-radius:17px;background:linear-gradient(145deg,#241b10,#171109)}
+.device-box p{color:var(--muted);font-size:12px}
+.device-result{margin-top:12px;padding:13px;border-radius:12px;background:#0c0906;color:#f1dfb8;font-size:13px;line-height:1.9}
+.user-card{background:#1b150d;border:1px solid #594728;padding:14px;margin:12px 0;border-radius:15px;line-height:2}
+.admin-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.admin-actions button{margin:0;padding:10px 5px;font-size:12px}
+.top-line{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.online{color:var(--green);font-size:11px;font-weight:800}
+.plan-card{
+ margin:12px 0;padding:17px;border:1px solid #70572e;border-radius:17px;
+ background:linear-gradient(145deg,#302313,#191208);box-shadow:0 12px 30px #0005
+}
+.plan-card h3{color:#ffedc3;font-size:18px}
+.plan-price{font-size:23px;font-weight:900;color:var(--gold2)}
+.plan-meta{color:#dfcfaa;font-size:13px;line-height:2}
+.plan-description{color:#a99a7d;font-size:13px}
 .qr-image{display:block;width:100%;max-width:320px;margin:14px auto;border-radius:14px;background:#fff;padding:8px}
-.qr-help{color:#b9bdc5;font-size:12px;line-height:2;text-align:center}.file-input{padding:12px;background:#0b0c0e}
-.activation-panel{margin-top:15px;padding:16px;border:1px solid #555960;border-radius:16px;background:#1a1c20}
-.chat-box{margin-top:12px;padding:14px;border:1px solid #454950;border-radius:16px;background:#17191c}
-.chat-messages{height:260px;overflow-y:auto;padding:10px;background:#090a0b;border-radius:12px}
+.qr-help{color:#c7b895;font-size:12px;line-height:2;text-align:center}
+.file-input{padding:12px;background:#0c0906}
+.activation-panel{margin-top:15px;padding:16px;border:1px solid #66502c;border-radius:16px;background:#1b150d}
+.chat-box{margin-top:12px;padding:14px;border:1px solid #66502c;border-radius:16px;background:#1b150d}
+.chat-messages{height:260px;overflow-y:auto;padding:10px;background:#0c0906;border-radius:12px}
 .chat-msg{max-width:88%;padding:9px 12px;margin:8px 0;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.8}
-.chat-msg.customer{background:#34373d;margin-right:auto}.chat-msg.admin{background:#174237;margin-left:auto}
-.chat-meta{display:block;font-size:10px;color:#b8c3d5;margin-top:3px}.chat-empty{color:#9aa0aa;text-align:center;font-size:13px;padding:20px}
-.chat-conversation{width:100%;text-align:right;background:#24272c;border:1px solid #454950;margin:7px 0;padding:12px;box-shadow:none;color:#f1f2f4}
-.payment-choice{display:grid;grid-template-columns:1fr 1fr;gap:9px}.payment-choice button{margin:0;background:#202226;border:1px solid #555960;box-shadow:none;color:#eee}
-.payment-choice button.selected{border-color:#f1f2f4;background:#3a3d43}
-.order-card{padding:14px;margin:10px 0;border:1px solid #42464d;border-radius:14px;background:#141619;white-space:pre-line}
-.order-status{font-weight:800;color:#e4d9a7}.inline-row{display:flex;gap:8px;align-items:center}.inline-row button{width:auto;min-width:105px}
+.chat-msg.customer{background:#49371d;margin-right:auto}
+.chat-msg.admin{background:#174237;margin-left:auto}
+.chat-meta{display:block;font-size:10px;color:#c7b895;margin-top:3px}
+.chat-empty{color:#9f9075;text-align:center;font-size:13px;padding:20px}
+.chat-conversation{width:100%;text-align:right;background:#241b10;border:1px solid #594728;margin:7px 0;padding:12px;box-shadow:none;color:#f5e8c9}
+.payment-choice{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.payment-choice button{margin:0;background:#21190f;border:1px solid #70572e;box-shadow:none;color:#f5e8c9}
+.payment-choice button.selected{border-color:#f5d98b;background:#49351a}
+.order-card{padding:14px;margin:10px 0;border:1px solid #594728;border-radius:14px;background:#171109;white-space:pre-line}
+.order-status{font-weight:800;color:#e4d9a7}
+.inline-row{display:flex;gap:8px;align-items:center}
+.inline-row button{width:auto;min-width:105px}
 .dashboard-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:15px 0}
-.dashboard-nav button{margin:0;padding:11px 6px;font-size:12px;background:#202226;border:1px solid #454950;color:#e7e8eb;box-shadow:none}
-.dashboard-nav button.active{background:linear-gradient(110deg,#d7d9dd,#f4f4f5);color:#111;border-color:#fff}
-.dash-section{animation:fadeIn .18s ease}@keyframes fadeIn{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}
-.auth-extra{display:flex;gap:8px;align-items:center}.auth-extra button{margin-top:0}
-@media(max-width:480px){body{padding:10px 7px}.container{padding:17px 11px;border-radius:19px}.hero h2{font-size:24px}.payment-choice{grid-template-columns:1fr}.dashboard-nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.dashboard-nav button{
+ margin:0;padding:11px 6px;font-size:12px;background:#21190f;
+ border:1px solid #594728;color:#f5e8c9;box-shadow:none
+}
+.dashboard-nav button.active{
+ background:linear-gradient(110deg,#a77b2e,#f5d98b);
+ color:#171006;border-color:#f5d98b
+}
+.dash-section{animation:fadeIn .18s ease}
+@keyframes fadeIn{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}
+.auth-extra{display:flex;gap:8px;align-items:center}
+.auth-extra button{margin-top:0}
+.password-box{
+ margin-top:15px;padding:17px;border:1px solid #80632f;border-radius:17px;
+ background:linear-gradient(145deg,#281e10,#171109)
+}
+.password-box h3{color:var(--gold2)}
+.password-hint{font-size:12px;color:#b7aa91;line-height:1.9}
+@media(max-width:480px){
+ body{padding:10px 7px}
+ .container{padding:17px 11px;border-radius:19px}
+ .hero h2{font-size:24px}
+ .payment-choice{grid-template-columns:1fr}
+ .dashboard-nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style>
 </head>
+
 <body>
 <main class="container">
-<header><div class="brand"><div class="brand-icon">✦</div><h1>eSIM PRO</h1></div><p class="subtitle">PREMIUM DIGITAL CONNECTIVITY</p></header>
+<header>
+ <div class="brand"><div class="brand-icon">✦</div><h1>eSIM PRO</h1></div>
+ <p class="subtitle">PREMIUM DIGITAL CONNECTIVITY</p>
+</header>
 
 <section id="login">
- <div class="hero"><span class="hero-tag">PREMIUM EXPERIENCE</span><h2>عالمك متصل<br>بلا حدود.</h2><p>اتصال أسهل. تجربة أرقى. وخطوات أوضح.</p><div class="hero-orb"></div></div>
+ <div class="hero">
+  <span class="hero-tag">PREMIUM EXPERIENCE</span>
+  <h2>عالمك متصل<br>بلا حدود.</h2>
+  <p>اتصال أسهل. تجربة أرقى. وخطوات أوضح.</p>
+  <div class="hero-orb"></div>
+ </div>
  <h3>تسجيل الدخول</h3>
  <input id="loginEmail" type="email" autocomplete="email" placeholder="البريد الإلكتروني">
  <input id="loginPassword" type="password" autocomplete="current-password" placeholder="كلمة المرور">
@@ -79,9 +199,15 @@ button:disabled{opacity:.5;cursor:not-allowed}.hidden{display:none!important}
 </section>
 
 <section id="register" class="hidden">
- <h2>إنشاء حسابك</h2><p class="subtitle">انضم إلى تجربة eSIM PRO</p>
- <input id="fullName" placeholder="الاسم بالكامل"><input id="phone" type="tel" placeholder="رقم الهاتف"><input id="whatsapp" type="tel" placeholder="رقم الواتساب"><input id="regEmail" type="email" placeholder="البريد الإلكتروني"><input id="regPassword" type="password" placeholder="كلمة المرور">
- <button onclick="register()">إنشاء الحساب ↗</button><button class="secondary" onclick="showLogin()">العودة لتسجيل الدخول</button>
+ <h2>إنشاء حسابك</h2>
+ <p class="subtitle">انضم إلى تجربة eSIM PRO</p>
+ <input id="fullName" placeholder="الاسم بالكامل">
+ <input id="phone" type="tel" placeholder="رقم الهاتف">
+ <input id="whatsapp" type="tel" placeholder="رقم الواتساب">
+ <input id="regEmail" type="email" placeholder="البريد الإلكتروني">
+ <input id="regPassword" type="password" placeholder="كلمة المرور">
+ <button onclick="register()">إنشاء الحساب ↗</button>
+ <button class="secondary" onclick="showLogin()">العودة لتسجيل الدخول</button>
 </section>
 
 <div id="message" class="card hidden"></div>
@@ -96,6 +222,7 @@ button:disabled{opacity:.5;cursor:not-allowed}.hidden{display:none!important}
 <section id="customerPanel" class="hidden">
  <div class="top-line"><span class="online">● ACCOUNT ACTIVE</span><span class="hero-tag">eSIM PRO</span></div>
  <div class="hero"><span class="hero-tag">WELCOME BACK</span><h2>أهلاً بك،<br><span id="customerName"></span></h2><p>إدارة اتصالك وخدماتك من مكان واحد.</p><div class="hero-orb"></div></div>
+
  <nav class="dashboard-nav" aria-label="قائمة حساب العميل">
   <button class="active" data-customer-tab="home" onclick="showCustomerTab('home')">الرئيسية</button>
   <button data-customer-tab="plans" onclick="showCustomerTab('plans')">الباقات</button>
@@ -104,10 +231,25 @@ button:disabled{opacity:.5;cursor:not-allowed}.hidden{display:none!important}
   <button data-customer-tab="support" onclick="showCustomerTab('support')">الدعم</button>
   <button data-customer-tab="profile" onclick="showCustomerTab('profile')">ملفي الشخصي</button>
  </nav>
- <div id="customer-home" class="dash-section"><div class="section-title"><span>✦</span> ملخص حسابك</div><div class="card">مرحبًا بك في eSIM PRO. من القائمة يمكنك استعراض الباقات ومتابعة طلبات الدفع والتواصل مع الدعم.</div><div id="homeLatestOrder" class="card">سيظهر آخر طلب لك هنا.</div></div>
- <div id="customer-plans" class="dash-section hidden"><div class="section-title"><span>✦</span> الباقات المتاحة</div><div id="customerPlans"><div class="card">جاري تحميل الباقات...</div></div></div>
- <div id="customer-orders" class="dash-section hidden"><div class="section-title"><span>✦</span> طلباتي والمدفوعات</div><div id="customerOrders" class="card">جاري تحميل الطلبات...</div></div>
- <div id="customer-activation" class="dash-section hidden"><div class="section-title"><span>✦</span> تفعيل شريحة eSIM</div>
+
+ <div id="customer-home" class="dash-section">
+  <div class="section-title"><span>✦</span> ملخص حسابك</div>
+  <div class="card">مرحبًا بك في eSIM PRO. من القائمة يمكنك استعراض الباقات ومتابعة طلبات الدفع والتواصل مع الدعم.</div>
+  <div id="homeLatestOrder" class="card">سيظهر آخر طلب لك هنا.</div>
+ </div>
+
+ <div id="customer-plans" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> الباقات المتاحة</div>
+  <div id="customerPlans"><div class="card">جاري تحميل الباقات...</div></div>
+ </div>
+
+ <div id="customer-orders" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> طلباتي والمدفوعات</div>
+  <div id="customerOrders" class="card">جاري تحميل الطلبات...</div>
+ </div>
+
+ <div id="customer-activation" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> تفعيل شريحة eSIM</div>
   <div class="activation-panel">
    <div class="info-box">بعد اعتماد الدفع، اضغط على «تفعيل الآن» من جهاز iPhone متوافق. سيُفتح مسار تثبيت eSIM من Apple، ثم أكمل خطوات الإضافة على جهازك.</div>
    <button id="customerActivationButton" onclick="requestIndividualActivation()">تفعيل الآن</button>
@@ -115,12 +257,44 @@ button:disabled{opacity:.5;cursor:not-allowed}.hidden{display:none!important}
    <div class="note">لن يظهر كود التفعيل كنص داخل حسابك. نجاح التثبيت وإمكانية استخدام الكود أكثر من مرة يعتمدان على صلاحية الكود وسياسة مزوّد الشريحة؛ وقد يطلب iPhone تأكيدك لإضافة الخطة.</div>
   </div>
  </div>
- <div id="customer-support" class="dash-section hidden"><div class="section-title"><span>✦</span> خدمة العملاء</div>
-  <div class="card"><p>تواصل معنا عبر واتساب أو الشات المباشر.</p><a href="https://wa.me/201555616119?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20eSIM%20PRO" target="_blank" rel="noopener"><button>واتساب خدمة العملاء</button></a>
-  <div class="chat-box"><h3>الشات المباشر</h3><div id="customerChatMessages" class="chat-messages"><div class="chat-empty">جاري تحميل الرسائل...</div></div><textarea id="customerChatInput" maxlength="3000" placeholder="اكتب رسالتك هنا..."></textarea><button id="customerSendButton" onclick="sendCustomerMessage()">إرسال الرسالة</button><p class="qr-help">يتم تحديث الرسائل تلقائيًا كل 10 ثوانٍ.</p></div></div>
+
+ <div id="customer-support" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> خدمة العملاء</div>
+  <div class="card">
+   <p>تواصل معنا عبر واتساب أو الشات المباشر.</p>
+   <a href="https://wa.me/201555616119?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D9%81%D9%8A%20eSIM%20PRO" target="_blank" rel="noopener"><button>واتساب خدمة العملاء</button></a>
+   <div class="chat-box">
+    <h3>الشات المباشر</h3>
+    <div id="customerChatMessages" class="chat-messages"><div class="chat-empty">جاري تحميل الرسائل...</div></div>
+    <textarea id="customerChatInput" maxlength="3000" placeholder="اكتب رسالتك هنا..."></textarea>
+    <button id="customerSendButton" onclick="sendCustomerMessage()">إرسال الرسالة</button>
+    <p class="qr-help">يتم تحديث الرسائل تلقائيًا كل 10 ثوانٍ.</p>
+   </div>
+  </div>
  </div>
- <div id="customer-profile" class="dash-section hidden"><div class="section-title"><span>✦</span> بيانات حسابي</div><div class="card"><div id="customerInfo"></div></div>
-  <div class="device-box"><h3>فحص دعم الجهاز (مبدئي)</h3><p>اطلب الرقم بكتابة *#06# ثم أدخل IMEI للفحص الشكلي.</p><input id="imeiInput" type="text" inputmode="numeric" maxlength="15" placeholder="رقم IMEI المكون من 15 رقم"><button onclick="checkDevice()">فحص الرقم</button><div id="deviceResult" class="device-result hidden"></div><p>هذا الفحص لا يؤكد توافق الجهاز فعليًا.</p></div>
+
+ <div id="customer-profile" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> بيانات حسابي</div>
+  <div class="card"><div id="customerInfo"></div></div>
+
+  <div class="password-box">
+   <h3>🔐 تغيير كلمة المرور</h3>
+   <p class="password-hint">اكتب كلمة المرور الحالية، ثم اختر كلمة مرور جديدة لحسابك.</p>
+   <input id="currentPassword" type="password" autocomplete="current-password" placeholder="كلمة المرور الحالية">
+   <input id="newPassword" type="password" autocomplete="new-password" placeholder="كلمة المرور الجديدة">
+   <input id="confirmNewPassword" type="password" autocomplete="new-password" placeholder="تأكيد كلمة المرور الجديدة">
+   <button id="changePasswordButton" onclick="changeCustomerPassword()">تغيير كلمة المرور</button>
+   <p id="passwordChangeStatus" class="qr-help" aria-live="polite"></p>
+  </div>
+
+  <div class="device-box">
+   <h3>فحص دعم الجهاز (مبدئي)</h3>
+   <p>اطلب الرقم بكتابة *#06# ثم أدخل IMEI للفحص الشكلي.</p>
+   <input id="imeiInput" type="text" inputmode="numeric" maxlength="15" placeholder="رقم IMEI المكون من 15 رقم">
+   <button onclick="checkDevice()">فحص الرقم</button>
+   <div id="deviceResult" class="device-result hidden"></div>
+   <p>هذا الفحص لا يؤكد توافق الجهاز فعليًا.</p>
+  </div>
   <button class="secondary" onclick="logout()">تسجيل الخروج</button>
  </div>
 </section>
@@ -128,6 +302,7 @@ button:disabled{opacity:.5;cursor:not-allowed}.hidden{display:none!important}
 <section id="adminPanel" class="hidden">
  <div class="hero"><span class="hero-tag">ADMIN CONTROL CENTER</span><h2>لوحة الإدارة</h2><p>إدارة العملاء والباقات والمدفوعات وخدمة العملاء.</p></div>
  <div class="card status"><span class="online">● ADMIN ACCESS</span><h3>مرحبًا بك في لوحة الإدارة</h3></div>
+
  <nav class="dashboard-nav" aria-label="قائمة الإدارة">
   <button class="active" data-admin-tab="overview" onclick="showAdminTab('overview')">نظرة عامة</button>
   <button data-admin-tab="payments" onclick="showAdminTab('payments')">المدفوعات</button>
@@ -137,35 +312,109 @@ button:disabled{opacity:.5;cursor:not-allowed}.hidden{display:none!important}
   <button data-admin-tab="support" onclick="showAdminTab('support')">الدعم والشات</button>
   <button data-admin-tab="settings" onclick="showAdminTab('settings')">الإعدادات</button>
  </nav>
- <div id="admin-overview" class="dash-section"><div class="section-title"><span>✦</span> مركز المتابعة</div><div class="card">استخدم أقسام لوحة الإدارة لمراجعة التحويلات واعتمادها، وإدارة العملاء والباقات ورمز التفعيل والرد على الرسائل.</div><button class="secondary" onclick="refreshAdmin()">↻ تحديث كل البيانات</button></div>
- <div id="admin-payments" class="dash-section hidden"><div class="section-title"><span>✦</span> طلبات الدفع</div><button class="secondary" onclick="loadAdminOrders()">↻ تحديث طلبات الدفع</button><div id="adminOrders"></div></div>
- <div id="admin-customers" class="dash-section hidden"><div class="section-title"><span>✦</span> إدارة العملاء</div><button class="secondary" onclick="loadAdminUsers()">↻ تحديث قائمة المستخدمين</button><div id="adminUsers"></div></div>
- <div id="admin-plans" class="dash-section hidden"><div class="section-title"><span>✦</span> إضافة باقة جديدة</div><div class="card"><input id="planName" placeholder="اسم الباقة"><input id="planData" placeholder="حجم الإنترنت مثل Unlimited"><input id="planDays" type="number" min="1" placeholder="مدة الصلاحية بالأيام"><input id="planPrice" type="number" min="0" step="0.01" placeholder="السعر"><input id="planCurrency" value="EGP" placeholder="العملة"><input id="planDescription" placeholder="وصف الباقة"><button onclick="addPlan()">+ إضافة الباقة</button></div><div class="section-title"><span>✦</span> إدارة الباقات الحالية</div><button class="secondary" onclick="loadAdminPlans()">↻ تحديث الباقات</button><div id="adminPlans"></div></div>
- <div id="admin-qr" class="dash-section hidden"><div class="section-title"><span>✦</span> إعدادات التفعيل و QR (للأدمن فقط)</div>
-  <div class="card"><h3>كود LPA</h3><p class="qr-help">أدخل كود التفعيل ليُحفظ من خلال Edge Function. لن يتم إرساله إلى واجهة العميل.</p>
-   <input id="activationLpaInput" type="password" autocomplete="off" placeholder="LPA:1$..." dir="ltr">
-   <button onclick="saveActivationCode()">حفظ كود التفعيل بأمان</button><div id="activationCodeStatus" class="qr-help">لا يتم عرض الكود المحفوظ مرة أخرى.</div>
+
+ <div id="admin-overview" class="dash-section">
+  <div class="section-title"><span>✦</span> مركز المتابعة</div>
+  <div class="card">استخدم أقسام لوحة الإدارة لمراجعة التحويلات واعتمادها، وإدارة العملاء والباقات ورمز التفعيل والرد على الرسائل.</div>
+  <button class="secondary" onclick="refreshAdmin()">↻ تحديث كل البيانات</button>
+ </div>
+
+ <div id="admin-payments" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> طلبات الدفع</div>
+  <button class="secondary" onclick="loadAdminOrders()">↻ تحديث طلبات الدفع</button>
+  <div id="adminOrders"></div>
+ </div>
+
+ <div id="admin-customers" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> إدارة العملاء</div>
+  <button class="secondary" onclick="loadAdminUsers()">↻ تحديث قائمة المستخدمين</button>
+  <div id="adminUsers"></div>
+ </div>
+
+ <div id="admin-plans" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> إضافة باقة جديدة</div>
+  <div class="card">
+   <input id="planName" placeholder="اسم الباقة">
+   <input id="planData" placeholder="حجم الإنترنت مثل Unlimited">
+   <input id="planDays" type="number" min="1" placeholder="مدة الصلاحية بالأيام">
+   <input id="planPrice" type="number" min="0" step="0.01" placeholder="السعر">
+   <input id="planCurrency" value="EGP" placeholder="العملة">
+   <input id="planDescription" placeholder="وصف الباقة">
+   <button onclick="addPlan()">+ إضافة الباقة</button>
   </div>
-  <div class="card"><h3>صورة QR الاحتياطية</h3><p class="qr-help">ارفع صورة QR واحتفظ بمعاينتها داخل لوحة الإدارة فقط. لا تشارك الصورة علنًا.</p>
-   <input id="activationQrFile" class="file-input" type="file" accept="image/png,image/jpeg,image/webp"><button onclick="uploadActivationQR()">حفظ صورة QR</button>
-   <div id="adminQrStatus" class="qr-help">لم يتم تحميل حالة الرمز بعد.</div><img id="adminQrPreview" class="qr-image hidden" alt="معاينة QR للأدمن فقط">
+  <div class="section-title"><span>✦</span> إدارة الباقات الحالية</div>
+  <button class="secondary" onclick="loadAdminPlans()">↻ تحديث الباقات</button>
+  <div id="adminPlans"></div>
+ </div>
+
+ <div id="admin-qr" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> إعدادات التفعيل و QR (للأدمن فقط)</div>
+  <div class="card">
+   <h3>كود LPA</h3>
+   <p class="qr-help">أدخل كود التفعيل ليُحفظ من خلال Edge Function. لن يتم إرساله إلى واجهة العميل.</p>
+   <input id="activationLpaInput" type="password" autocomplete="off" placeholder="LPA:1$..." dir="ltr">
+   <button onclick="saveActivationCode()">حفظ كود التفعيل بأمان</button>
+   <div id="activationCodeStatus" class="qr-help">لا يتم عرض الكود المحفوظ مرة أخرى.</div>
+  </div>
+  <div class="card">
+   <h3>صورة QR الاحتياطية</h3>
+   <p class="qr-help">ارفع صورة QR واحتفظ بمعاينتها داخل لوحة الإدارة فقط. لا تشارك الصورة علنًا.</p>
+   <input id="activationQrFile" class="file-input" type="file" accept="image/png,image/jpeg,image/webp">
+   <button onclick="uploadActivationQR()">حفظ صورة QR</button>
+   <div id="adminQrStatus" class="qr-help">لم يتم تحميل حالة الرمز بعد.</div>
+   <img id="adminQrPreview" class="qr-image hidden" alt="معاينة QR للأدمن فقط">
   </div>
  </div>
- <div id="admin-support" class="dash-section hidden"><div class="section-title"><span>✦</span> الشات وخدمة العملاء</div><div class="card"><p class="qr-help">اختر محادثة عميل لعرض الرسائل والرد عليها.</p><button class="secondary" onclick="loadAdminSupportMessages()">↻ تحديث المحادثات</button><div id="adminConversations"><div class="chat-empty">جاري تحميل المحادثات...</div></div><div id="adminChatArea" class="chat-box hidden"><h3 id="adminChatTitle">محادثة العميل</h3><div id="adminChatMessages" class="chat-messages"></div><textarea id="adminChatInput" maxlength="3000" placeholder="اكتب ردك للعميل..."></textarea><button id="adminSendButton" onclick="sendAdminMessage()">إرسال الرد</button></div><a href="https://wa.me/201555616119" target="_blank" rel="noopener"><button>فتح واتساب الدعم</button></a></div></div>
- <div id="admin-settings" class="dash-section hidden"><div class="section-title"><span>✦</span> إعدادات الحساب</div><div class="card">رقم التحويل المعروض للعملاء: <strong>01098691038</strong><br>طرق الدفع: فودافون كاش وإنستاباي.<br>رقم واتساب الدعم: 01555616119<br><p class="note">تغيير هذه البيانات يتطلب تعديل إعدادات الموقع والكود. لا تشارك مفاتيح الإدارة السرية مع أي شخص.</p><button class="secondary" onclick="logout()">تسجيل الخروج</button></div></div>
+
+ <div id="admin-support" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> الشات وخدمة العملاء</div>
+  <div class="card">
+   <p class="qr-help">اختر محادثة عميل لعرض الرسائل والرد عليها.</p>
+   <button class="secondary" onclick="loadAdminSupportMessages()">↻ تحديث المحادثات</button>
+   <div id="adminConversations"><div class="chat-empty">جاري تحميل المحادثات...</div></div>
+   <div id="adminChatArea" class="chat-box hidden">
+    <h3 id="adminChatTitle">محادثة العميل</h3>
+    <div id="adminChatMessages" class="chat-messages"></div>
+    <textarea id="adminChatInput" maxlength="3000" placeholder="اكتب ردك للعميل..."></textarea>
+    <button id="adminSendButton" onclick="sendAdminMessage()">إرسال الرد</button>
+   </div>
+   <a href="https://wa.me/201555616119" target="_blank" rel="noopener"><button>فتح واتساب الدعم</button></a>
+  </div>
+ </div>
+
+ <div id="admin-settings" class="dash-section hidden">
+  <div class="section-title"><span>✦</span> إعدادات الحساب</div>
+  <div class="card">
+   رقم التحويل المعروض للعملاء: <strong>01098691038</strong><br>
+   طرق الدفع: فودافون كاش وإنستاباي.<br>
+   رقم واتساب الدعم: 01555616119
+   <p class="note">تغيير هذه البيانات يتطلب تعديل إعدادات الموقع والكود. لا تشارك مفاتيح الإدارة السرية مع أي شخص.</p>
+   <button class="secondary" onclick="logout()">تسجيل الخروج</button>
+  </div>
+ </div>
 </section>
+
 <footer class="small">eSIM PRO © 2026<br>PREMIUM DIGITAL CONNECTIVITY<br><strong>Powered by eSIM PRO</strong></footer>
 </main>
 
 <div id="paymentModal" class="hidden" style="position:fixed;inset:0;z-index:20;background:#030303e8;align-items:center;justify-content:center;padding:16px;overflow:auto">
  <div class="container" style="max-width:520px;max-height:92vh;overflow:auto;margin:auto">
   <div class="top-line"><h3>إتمام الدفع</h3><button class="secondary" style="width:auto;margin:0" onclick="closePayment()">إغلاق</button></div>
-  <p id="paymentPlanName" class="qr-help"></p><h2 id="paymentAmount"></h2>
-  <div class="payment-choice"><button data-method="vodafone_cash" class="selected" onclick="choosePayment('vodafone_cash')">فودافون كاش</button><button data-method="instapay" onclick="choosePayment('instapay')">إنستاباي</button></div>
-  <div class="info-box">حوّل المبلغ الموضح إلى الرقم التالي:<br><strong id="paymentNumber">01098691038</strong><br><button class="secondary" onclick="GenCopyPaymentNumber()">نسخ رقم الدفع</button></div>
+  <p id="paymentPlanName" class="qr-help"></p>
+  <h2 id="paymentAmount"></h2>
+  <div class="payment-choice">
+   <button data-method="vodafone_cash" class="selected" onclick="choosePayment('vodafone_cash')">فودافون كاش</button>
+   <button data-method="instapay" onclick="choosePayment('instapay')">إنستاباي</button>
+  </div>
+  <div class="info-box">
+   حوّل المبلغ الموضح إلى الرقم التالي:<br>
+   <strong id="paymentNumber">01098691038</strong><br>
+   <button class="secondary" onclick="GenCopyPaymentNumber()">نسخ رقم الدفع</button>
+  </div>
   <p class="qr-help">بعد التحويل، ارفع صورة الإيصال أو ملف PDF.</p>
   <input id="receiptFile" class="file-input" type="file" accept="image/png,image/jpeg,image/webp,application/pdf">
-  <p id="paymentStatus" class="qr-help"></p><button id="submitPaymentButton" onclick="submitPayment()">إرسال إيصال الدفع</button>
+  <p id="paymentStatus" class="qr-help"></p>
+  <button id="submitPaymentButton" onclick="submitPayment()">إرسال إيصال الدفع</button>
  </div>
 </div>
 
@@ -184,235 +433,542 @@ function message(t){$("message").textContent=t;$("message").classList.remove("hi
 function hideMessage(){$("message").classList.add("hidden")}
 function showLogin(){stopSupportPolling();currentUser=null;showOnly("login")}
 function showRegister(){showOnly("register")}
-function showCustomerTab(tab){document.querySelectorAll("[data-customer-tab]").forEach(b=>b.classList.toggle("active",b.dataset.customerTab===tab));["home","plans","orders","activation","support","profile"].forEach(x=>$("customer-"+x).classList.toggle("hidden",x!==tab));}
-function showAdminTab(tab){document.querySelectorAll("[data-admin-tab]").forEach(b=>b.classList.toggle("active",b.dataset.adminTab===tab));["overview","payments","customers","plans","qr","support","settings"].forEach(x=>$("admin-"+x).classList.toggle("hidden",x!==tab));}
-async function refreshAdmin(){await Promise.all([loadAdminOrders(),loadAdminUsers(),loadAdminPlans(),loadAdminQR(),loadAdminSupportMessages()]);alert("تم تحديث البيانات الظاهرة وفق صلاحيات قاعدة البيانات.")}
-async function resetPassword(){const email=$("loginEmail").value.trim();if(!email)return message("اكتب بريدك الإلكتروني أولاً في خانة تسجيل الدخول.");try{const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.href});if(error)throw error;message("تم إرسال رابط استعادة كلمة المرور إلى بريدك إذا كان مسجلًا.");}catch(e){message("تعذر إرسال رابط الاستعادة: "+e.message)}}
+
+function showCustomerTab(tab){
+ document.querySelectorAll("[data-customer-tab]").forEach(b=>b.classList.toggle("active",b.dataset.customerTab===tab));
+ ["home","plans","orders","activation","support","profile"].forEach(x=>$("customer-"+x).classList.toggle("hidden",x!==tab));
+}
+function showAdminTab(tab){
+ document.querySelectorAll("[data-admin-tab]").forEach(b=>b.classList.toggle("active",b.dataset.adminTab===tab));
+ ["overview","payments","customers","plans","qr","support","settings"].forEach(x=>$("admin-"+x).classList.toggle("hidden",x!==tab));
+}
+async function refreshAdmin(){
+ await Promise.all([loadAdminOrders(),loadAdminUsers(),loadAdminPlans(),loadAdminQR(),loadAdminSupportMessages()]);
+ alert("تم تحديث البيانات الظاهرة وفق صلاحيات قاعدة البيانات.")
+}
+async function resetPassword(){
+ const email=$("loginEmail").value.trim();
+ if(!email)return message("اكتب بريدك الإلكتروني أولاً في خانة تسجيل الدخول.");
+ try{
+  const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.href});
+  if(error)throw error;
+  message("تم إرسال رابط استعادة كلمة المرور إلى بريدك إذا كان مسجلًا.");
+ }catch(e){message("تعذر إرسال رابط الاستعادة: "+e.message)}
+}
+
 async function register(){
- hideMessage();const fullName=$("fullName").value.trim(),phone=$("phone").value.trim(),whatsapp=$("whatsapp").value.trim(),email=$("regEmail").value.trim(),password=$("regPassword").value;
+ hideMessage();
+ const fullName=$("fullName").value.trim(),phone=$("phone").value.trim(),whatsapp=$("whatsapp").value.trim(),email=$("regEmail").value.trim(),password=$("regPassword").value;
  if(!fullName||!phone||!whatsapp||!email||!password)return message("من فضلك أكمل جميع البيانات");
  if(password.length<6)return message("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
- try{const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName,phone,whatsapp}}});if(error)throw error;if(!data.session)message("تم إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب، ثم سجل الدخول.");else await loadProfile()}catch(e){message("تعذر إنشاء الحساب: "+e.message)}
+ try{
+  const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName,phone,whatsapp}}});
+  if(error)throw error;
+  if(!data.session)message("تم إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب، ثم سجل الدخول.");
+  else await loadProfile();
+ }catch(e){message("تعذر إنشاء الحساب: "+e.message)}
 }
-async function login(){hideMessage();const email=$("loginEmail").value.trim(),password=$("loginPassword").value;if(!email||!password)return message("اكتب البريد الإلكتروني وكلمة المرور");try{const {error}=await db.auth.signInWithPassword({email,password});if(error)throw error;await loadProfile()}catch(e){message("تعذر تسجيل الدخول: "+e.message)}}
-function checkDevice(){const v=$("imeiInput").value.trim(),r=$("deviceResult");r.classList.remove("hidden");r.textContent=/^[0-9]{15}$/.test(v)?"تم إدخال رقم IMEI. لا يتوفر فحص توافق فعلي في الموقع حاليًا.":"أدخل IMEI صحيحًا مكوّنًا من 15 رقمًا."}
+
+async function login(){
+ hideMessage();
+ const email=$("loginEmail").value.trim(),password=$("loginPassword").value;
+ if(!email||!password)return message("اكتب البريد الإلكتروني وكلمة المرور");
+ try{
+  const {error}=await db.auth.signInWithPassword({email,password});
+  if(error)throw error;
+  await loadProfile();
+ }catch(e){message("تعذر تسجيل الدخول: "+e.message)}
+}
+
+function checkDevice(){
+ const v=$("imeiInput").value.trim(),r=$("deviceResult");
+ r.classList.remove("hidden");
+ r.textContent=/^[0-9]{15}$/.test(v)?"تم إدخال رقم IMEI. لا يتوفر فحص توافق فعلي في الموقع حاليًا.":"أدخل IMEI صحيحًا مكوّنًا من 15 رقمًا.";
+}
+
+/* تغيير كلمة المرور */
+async function changeCustomerPassword(){
+ const current=$("currentPassword").value;
+ const next=$("newPassword").value;
+ const confirmNext=$("confirmNewPassword").value;
+ const status=$("passwordChangeStatus");
+ const button=$("changePasswordButton");
+
+ status.textContent="";
+
+ if(!current||!next||!confirmNext){
+  status.textContent="من فضلك اكتب جميع الخانات.";
+  return;
+ }
+ if(next.length<6){
+  status.textContent="كلمة المرور الجديدة يجب أن تكون 6 أحرف على الأقل.";
+  return;
+ }
+ if(next!==confirmNext){
+  status.textContent="تأكيد كلمة المرور غير مطابق.";
+  return;
+ }
+ if(current===next){
+  status.textContent="اختر كلمة مرور مختلفة عن الحالية.";
+  return;
+ }
+ if(!currentUser||!currentUser.email){
+  status.textContent="انتهت الجلسة. سجّل الدخول مرة أخرى.";
+  return;
+ }
+
+ button.disabled=true;
+ status.textContent="جاري التحقق من كلمة المرور الحالية...";
+
+ try{
+  /* إعادة التحقق من كلمة المرور الحالية */
+  const {error:loginError}=await db.auth.signInWithPassword({
+   email:currentUser.email,
+   password:current
+  });
+  if(loginError){
+   throw new Error("كلمة المرور الحالية غير صحيحة.");
+  }
+
+  status.textContent="تم التحقق. جاري تحديث كلمة المرور...";
+
+  const {error:updateError}=await db.auth.updateUser({password:next});
+  if(updateError)throw updateError;
+
+  $("currentPassword").value="";
+  $("newPassword").value="";
+  $("confirmNewPassword").value="";
+  status.textContent="تم تغيير كلمة المرور بنجاح.";
+  const {data:{user}}=await db.auth.getUser();
+  if(user)currentUser=user;
+
+ }catch(e){
+  status.textContent="تعذر تغيير كلمة المرور: "+(e.message||"حدث خطأ غير متوقع.");
+ }finally{
+  button.disabled=false;
+ }
+}
+
 async function loadProfile(){
- try{const {data:{user},error:ae}=await db.auth.getUser();if(ae)throw ae;if(!user)return showLogin();currentUser=user;
-  if(user.app_metadata?.role==="admin"){showOnly("adminPanel");showAdminTab("overview");await loadAdminUsers();await loadAdminPlans();await loadAdminQR();await loadAdminOrders();await loadAdminSupportMessages();startSupportPolling();return}
-  const {data,error}=await db.from("profiles").select("full_name,phone,whatsapp,status").eq("id",user.id).single();if(error)throw error;
-  if(data.status!=="approved"){stopSupportPolling();showOnly("waitingPanel");const map={pending:["حسابك قيد المراجعة","تم استلام طلبك. انتظر موافقة الإدارة."],rejected:["تم رفض الحساب","يرجى التواصل مع الإدارة."],suspended:["الحساب موقوف","يرجى التواصل مع الإدارة."]};const x=map[data.status]||["الحساب غير مفعل","يرجى التواصل مع الإدارة."];$("waitingTitle").textContent=x[0];$("waitingText").textContent=x[1];return}
-  showOnly("customerPanel");showCustomerTab("home");$("customerName").textContent=data.full_name||"عميلنا العزيز";$("customerInfo").textContent="الاسم: "+(data.full_name||"غير مسجل")+" | الهاتف: "+(data.phone||"غير مسجل")+" | الواتساب: "+(data.whatsapp||"غير مسجل");
+ try{
+  const {data:{user},error:ae}=await db.auth.getUser();
+  if(ae)throw ae;
+  if(!user)return showLogin();
+  currentUser=user;
+
+  if(user.app_metadata?.role==="admin"){
+   showOnly("adminPanel");showAdminTab("overview");
+   await loadAdminUsers();await loadAdminPlans();await loadAdminQR();await loadAdminOrders();await loadAdminSupportMessages();
+   startSupportPolling();return;
+  }
+
+  const {data,error}=await db.from("profiles").select("full_name,phone,whatsapp,status").eq("id",user.id).single();
+  if(error)throw error;
+
+  if(data.status!=="approved"){
+   stopSupportPolling();showOnly("waitingPanel");
+   const map={
+    pending:["حسابك قيد المراجعة","تم استلام طلبك. انتظر موافقة الإدارة."],
+    rejected:["تم رفض الحساب","يرجى التواصل مع الإدارة."],
+    suspended:["الحساب موقوف","يرجى التواصل مع الإدارة."]
+   };
+   const x=map[data.status]||["الحساب غير مفعل","يرجى التواصل مع الإدارة."];
+   $("waitingTitle").textContent=x[0];$("waitingText").textContent=x[1];return;
+  }
+
+  showOnly("customerPanel");showCustomerTab("home");
+  $("customerName").textContent=data.full_name||"عميلنا العزيز";
+  $("customerInfo").textContent="الاسم: "+(data.full_name||"غير مسجل")+" | الهاتف: "+(data.phone||"غير مسجل")+" | الواتساب: "+(data.whatsapp||"غير مسجل");
   await loadCustomerPlans();await loadCustomerOrders();await loadCustomerSupportMessages();startSupportPolling();
+
  }catch(e){showOnly("login");message("تعذر تحميل الحساب: "+e.message)}
 }
+
 async function loadAdminUsers(){
  const out=$("adminUsers");out.textContent="جاري التحميل...";
- try{const {data:{user},error:ae}=await db.auth.getUser();if(ae||!user||user.app_metadata?.role!=="admin"){showLogin();return}
- const {data,error}=await db.from("profiles").select("id,full_name,phone,whatsapp,status").order("created_at",{ascending:false});if(error)throw error;out.innerHTML="";
- if(!data?.length){out.textContent="لا يوجد مستخدمون";return}
- data.forEach(p=>{const c=document.createElement("div");c.className="user-card";const info=document.createElement("div");info.style.whiteSpace="pre-line";info.textContent=`الاسم: ${p.full_name||""}\nالهاتف: ${p.phone||""}\nواتساب: ${p.whatsapp||""}\nالحالة: ${p.status}`;c.appendChild(info);const box=document.createElement("div");box.className="admin-actions";
- [{label:"قبول",status:"approved"},{label:"رفض",status:"rejected"},{label:"إيقاف",status:"suspended"},{label:"انتظار",status:"pending"}].forEach(a=>{const b=document.createElement("button");b.textContent=a.label;if(["rejected","suspended"].includes(a.status))b.className="danger";b.onclick=async()=>{if(p.id===user.id)return alert("لا يمكنك تغيير حالة حساب الأدمن");if(!confirm("تأكيد تغيير حالة الحساب؟"))return;b.disabled=true;const {error}=await db.from("profiles").update({status:a.status}).eq("id",p.id);if(error){alert(error.message);b.disabled=false}else{alert("تم تحديث الحالة");loadAdminUsers()}};box.appendChild(b)});c.appendChild(box);out.appendChild(c)});
+ try{
+  const {data:{user},error:ae}=await db.auth.getUser();
+  if(ae||!user||user.app_metadata?.role!=="admin"){showLogin();return}
+  const {data,error}=await db.from("profiles").select("id,full_name,phone,whatsapp,status").order("created_at",{ascending:false});
+  if(error)throw error;
+  out.innerHTML="";
+  if(!data?.length){out.textContent="لا يوجد مستخدمون";return}
+  data.forEach(p=>{
+   const c=document.createElement("div");c.className="user-card";
+   const info=document.createElement("div");info.style.whiteSpace="pre-line";
+   info.textContent=`الاسم: ${p.full_name||""}\nالهاتف: ${p.phone||""}\nواتساب: ${p.whatsapp||""}\nالحالة: ${p.status}`;
+   c.appendChild(info);
+   const box=document.createElement("div");box.className="admin-actions";
+   [{label:"قبول",status:"approved"},{label:"رفض",status:"rejected"},{label:"إيقاف",status:"suspended"},{label:"انتظار",status:"pending"}].forEach(a=>{
+    const b=document.createElement("button");b.textContent=a.label;
+    if(["rejected","suspended"].includes(a.status))b.className="danger";
+    b.onclick=async()=>{
+     if(p.id===user.id)return alert("لا يمكنك تغيير حالة حساب الأدمن");
+     if(!confirm("تأكيد تغيير حالة الحساب؟"))return;
+     b.disabled=true;
+     const {error}=await db.from("profiles").update({status:a.status}).eq("id",p.id);
+     if(error){alert(error.message);b.disabled=false}
+     else{alert("تم تحديث الحالة");loadAdminUsers()}
+    };
+    box.appendChild(b);
+   });
+   c.appendChild(box);out.appendChild(c);
+  });
  }catch(e){out.textContent="حدث خطأ: "+e.message}
 }
-async function loadAdminQR(){const s=$("adminQrStatus"),im=$("adminQrPreview");try{const {data,error}=await db.from("esim_qr_settings").select("object_path").eq("id",1).maybeSingle();if(error)throw error;if(data?.object_path){const {data:u,error:se}=await db.storage.from(QR_BUCKET).createSignedUrl(data.object_path,600);if(se)throw se;im.src=u.signedUrl;im.classList.remove("hidden");s.textContent="يوجد QR محفوظ. المعاينة مؤقتة للأدمن فقط."}else{im.classList.add("hidden");s.textContent="لم يتم رفع QR."}}catch(e){im.classList.add("hidden");s.textContent="تعذر قراءة حالة QR: "+e.message}}
 
-/* تم تعديل التحقق: نقبل صيغة LPA مع تنظيف المحارف الخفية والمسافات */
-async function saveActivationCode() {
-  const input = $("activationLpaInput");
-  const status = $("activationCodeStatus");
-  const button = input?.parentElement?.querySelector("button");
-
-  let code = (input?.value || "")
-    .normalize("NFKC")
-    .replace(/[\s\u200B-\u200D\uFEFF\u00A0]/g, "")
-    .trim();
-
-  if (!code) {
-    status.textContent = "أدخل كود LPA أولاً.";
-    return;
-  }
-
-  // السماح باختلاف حالة الأحرف في بداية LPA فقط
-  const parts = code.split("$");
-  if (parts.length !== 3 || parts[0].toUpperCase() !== "LPA:1" || !parts[1] || !parts[2]) {
-    status.textContent = "صيغة الكود غير صحيحة. تأكد من وجود LPA:1 ثم عنوان الخادم ثم رمز التفعيل.";
-    return;
-  }
-
-  // إعادة بناء الكود بصيغته القياسية دون تغيير بيانات الخادم أو الرمز
-  code = "LPA:1$" + parts[1] + "$" + parts[2];
-
-  if (button) button.disabled = true;
-  status.textContent = "جاري التحقق من جلسة الأدمن...";
-
-  try {
-    const {
-      data: { session },
-      error: sessionError
-    } = await db.auth.getSession();
-
-    if (sessionError) throw sessionError;
-    if (!session?.access_token) {
-      throw new Error("الجلسة منتهية. سجّل الدخول مرة أخرى.");
-    }
-
-    const {
-      data: { user },
-      error: userError
-    } = await db.auth.getUser(session.access_token);
-
-    if (userError) throw userError;
-    if (user?.app_metadata?.role !== "admin") {
-      throw new Error("الحساب الحالي ليس حساب أدمن.");
-    }
-
-    status.textContent = "جاري حفظ كود التفعيل...";
-
-    const { data, error } = await db.functions.invoke("esim-activate", {
-      body: {
-        action: "save",
-        activation_code: code
-      },
-      headers: {
-        Authorization: `Bearer ${session.access_token}`
-      }
-    });
-
-    if (error) {
-      let details = error.message;
-      try {
-        if (error.context && typeof error.context.json === "function") {
-          const result = await error.context.json();
-          details = result.error || details;
-        }
-      } catch (_) {}
-      throw new Error(details);
-    }
-
-    if (!data?.success) {
-      throw new Error(data?.error || "لم يتم حفظ الكود.");
-    }
-
-    input.value = "";
-    status.textContent = "تم حفظ كود التفعيل بنجاح.";
-  } catch (error) {
-    console.error("Save activation error:", error);
-    status.textContent = "فشل الحفظ: " + (error.message || "خطأ غير معروف");
-  } finally {
-    if (button) button.disabled = false;
-  }
+async function loadAdminQR(){
+ const s=$("adminQrStatus"),im=$("adminQrPreview");
+ try{
+  const {data,error}=await db.from("esim_qr_settings").select("object_path").eq("id",1).maybeSingle();
+  if(error)throw error;
+  if(data?.object_path){
+   const {data:u,error:se}=await db.storage.from(QR_BUCKET).createSignedUrl(data.object_path,600);
+   if(se)throw se;
+   im.src=u.signedUrl;im.classList.remove("hidden");s.textContent="يوجد QR محفوظ. المعاينة مؤقتة للأدمن فقط.";
+  }else{im.classList.add("hidden");s.textContent="لم يتم رفع QR."}
+ }catch(e){im.classList.add("hidden");s.textContent="تعذر قراءة حالة QR: "+e.message}
 }
 
-async function uploadActivationQR(){const f=$("activationQrFile").files[0];if(!f)return alert("اختر صورة QR");if(!["image/png","image/jpeg","image/webp"].includes(f.type)||f.size>5*1024*1024)return alert("ارفع PNG أو JPG أو WEBP بحجم أقصى 5MB");const {data:{user}}=await db.auth.getUser();if(user?.app_metadata?.role!=="admin")return alert("غير مسموح");const {error}=await db.storage.from(QR_BUCKET).upload(QR_PATH,f,{upsert:true,contentType:f.type,cacheControl:"0"});if(error)return alert(error.message);const {error:me}=await db.from("esim_qr_settings").upsert({id:1,object_path:QR_PATH,updated_at:new Date().toISOString()},{onConflict:"id"});if(me)return alert(me.message);alert("تم حفظ QR");$("activationQrFile").value="";loadAdminQR()}
+async function saveActivationCode(){
+ const input=$("activationLpaInput"),status=$("activationCodeStatus");
+ const button=input?.parentElement?.querySelector("button");
+ let code=(input?.value||"").normalize("NFKC").replace(/[\s\u200B-\u200D\uFEFF\u00A0]/g,"").trim();
 
-async function requestIndividualActivation() {
-  if (!currentUser) {
-    alert("سجّل الدخول أولاً");
-    return;
+ if(!code){status.textContent="أدخل كود LPA أولاً.";return}
+ const parts=code.split("$");
+ if(parts.length!==3||parts[0].toUpperCase()!=="LPA:1"||!parts[1]||!parts[2]){
+  status.textContent="صيغة الكود غير صحيحة. تأكد من وجود LPA:1 ثم عنوان الخادم ثم رمز التفعيل.";return;
+ }
+ code="LPA:1$"+parts[1]+"$"+parts[2];
+ if(button)button.disabled=true;
+ status.textContent="جاري التحقق من جلسة الأدمن...";
+
+ try{
+  const {data:{session},error:sessionError}=await db.auth.getSession();
+  if(sessionError)throw sessionError;
+  if(!session?.access_token)throw new Error("الجلسة منتهية. سجّل الدخول مرة أخرى.");
+
+  const {data:{user},error:userError}=await db.auth.getUser(session.access_token);
+  if(userError)throw userError;
+  if(user?.app_metadata?.role!=="admin")throw new Error("الحساب الحالي ليس حساب أدمن.");
+
+  status.textContent="جاري حفظ كود التفعيل...";
+  const {data,error}=await db.functions.invoke("esim-activate",{
+   body:{action:"save",activation_code:code},
+   headers:{Authorization:`Bearer ${session.access_token}`}
+  });
+
+  if(error){
+   let details=error.message;
+   try{
+    if(error.context&&typeof error.context.json==="function"){
+     const result=await error.context.json();details=result.error||details;
+    }
+   }catch(_){}
+   throw new Error(details);
   }
-
-  if (!/iPhone|iPod/i.test(navigator.userAgent)) {
-    alert("التثبيت المباشر متاح من iPhone فقط.");
-    return;
-  }
-
-  showCustomerTab("activation");
-
-  const status = $("customerActivationStatus");
-  const button = $("customerActivationButton");
-  button.disabled = true;
-  status.textContent = "جاري التحقق من الحساب والدفع...";
-
-  try {
-    const {
-      data: { session },
-      error: sessionError
-    } = await db.auth.getSession();
-
-    if (sessionError) throw sessionError;
-
-    const token = session?.access_token;
-    if (!token) {
-      throw new Error("انتهت الجلسة. سجّل الدخول مرة أخرى.");
-    }
-
-    const { data: orders, error: orderError } = await db
-      .from("payment_orders")
-      .select("id")
-      .eq("user_id", currentUser.id)
-      .eq("status", "approved")
-      .limit(1);
-
-    if (orderError) throw orderError;
-    if (!orders || orders.length === 0) {
-      throw new Error("لا يوجد طلب دفع معتمد حتى الآن.");
-    }
-
-    status.textContent = "جاري تجهيز رابط تثبيت الشريحة...";
-
-    const { data, error } = await db.functions.invoke("esim-install", {
-      body: { action: "install" },
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    if (error) {
-      let detail = error.message || "تعذر الاتصال بخدمة التفعيل.";
-      try {
-        const context = error.context;
-        if (context && typeof context.json === "function") {
-          const payload = await context.json();
-          if (payload?.error) detail = payload.error;
-        }
-      } catch (_) {}
-      throw new Error(detail);
-    }
-
-    if (!data?.success || !data?.install_url) {
-      throw new Error(data?.error || "تعذر تجهيز رابط التثبيت.");
-    }
-
-    const installUrl = new URL(data.install_url);
-    if (
-      installUrl.protocol !== "https:" ||
-      installUrl.hostname !== "esimsetup.apple.com"
-    ) {
-      throw new Error("رابط التثبيت غير صالح.");
-    }
-
-    status.textContent = "تم تجهيز الرابط. جاري فتح إعدادات الشريحة...";
-    window.location.assign(installUrl.href);
-
-  } catch (e) {
-    console.error("eSIM activation error:", e);
-    status.textContent = "تعذر بدء التفعيل: " + (e.message || "خطأ غير معروف");
-  } finally {
-    button.disabled = false;
-  }
+  if(!data?.success)throw new Error(data?.error||"لم يتم حفظ الكود.");
+  input.value="";status.textContent="تم حفظ كود التفعيل بنجاح.";
+ }catch(error){
+  console.error("Save activation error:",error);
+  status.textContent="فشل الحفظ: "+(error.message||"خطأ غير معروف");
+ }finally{if(button)button.disabled=false}
 }
 
-async function addPlan(){const name=$("planName").value.trim(),amount=$("planData").value.trim(),days=Number($("planDays").value),price=Number($("planPrice").value),currency=$("planCurrency").value.trim()||"EGP",description=$("planDescription").value.trim();if(!name||!amount||!Number.isInteger(days)||days<1||$("planPrice").value===""||!Number.isFinite(price)||price<0)return alert("أكمل البيانات بشكل صحيح");const {data:{user}}=await db.auth.getUser();if(user?.app_metadata?.role!=="admin")return alert("غير مسموح");const {error}=await db.from("esim_plans").insert({name,data_amount:amount,validity_days:days,price,currency,description,is_active:true});if(error)return alert(error.message);["planName","planData","planDays","planPrice","planDescription"].forEach(i=>$(i).value="");alert("تمت إضافة الباقة");loadAdminPlans()}
-async function loadAdminPlans(){const out=$("adminPlans");out.textContent="جاري التحميل...";try{const {data,error}=await db.from("esim_plans").select("*").order("created_at",{ascending:false});if(error)throw error;out.innerHTML="";if(!data?.length){out.textContent="لا توجد باقات";return}data.forEach(p=>{const c=document.createElement("div");c.className="user-card";const t=document.createElement("div");t.style.whiteSpace="pre-line";t.textContent=`${p.name}\n${p.data_amount} • ${p.validity_days} يوم\n${p.price} ${p.currency}\n${p.description||""}\nالحالة: ${p.is_active?"نشطة":"متوقفة"}`;c.appendChild(t);const a=document.createElement("div");a.className="admin-actions";const e=document.createElement("button");e.textContent="تعديل";e.onclick=()=>editPlan(p);const toggle=document.createElement("button");toggle.textContent=p.is_active?"إيقاف":"تفعيل";toggle.onclick=async()=>{const {error}=await db.from("esim_plans").update({is_active:!p.is_active}).eq("id",p.id);if(error)alert(error.message);else loadAdminPlans()};const d=document.createElement("button");d.textContent="حذف";d.className="danger";d.onclick=async()=>{if(!confirm("حذف الباقة؟"))return;const {error}=await db.from("esim_plans").delete().eq("id",p.id);if(error)alert(error.message);else loadAdminPlans()};a.append(e,toggle,d);c.appendChild(a);out.appendChild(c)})}catch(e){out.textContent=e.message}}
-async function editPlan(p){const name=prompt("اسم الباقة",p.name);if(name===null)return;const amount=prompt("الإنترنت",p.data_amount);if(amount===null)return;const days=Number(prompt("الصلاحية بالأيام",p.validity_days));if(!Number.isInteger(days)||days<1)return alert("مدة غير صحيحة");const price=Number(prompt("السعر",p.price));if(!Number.isFinite(price)||price<0)return alert("سعر غير صحيح");const currency=prompt("العملة",p.currency);if(currency===null)return;const description=prompt("الوصف",p.description||"");if(description===null)return;const {error}=await db.from("esim_plans").update({name:name.trim(),data_amount:amount.trim(),validity_days:days,price,currency:currency.trim(),description:description.trim()}).eq("id",p.id);if(error)alert(error.message);else loadAdminPlans()}
-async function loadCustomerPlans(){const out=$("customerPlans");out.textContent="جاري تحميل الباقات...";const {data,error}=await db.from("esim_plans").select("id,name,data_amount,validity_days,price,currency,description").eq("is_active",true).order("created_at",{ascending:false});if(error){out.textContent=error.message;return}out.innerHTML="";if(!data?.length){out.textContent="لا توجد باقات متاحة";return}data.forEach(p=>{const c=document.createElement("div");c.className="plan-card";const h=document.createElement("h3");h.textContent=p.name;const m=document.createElement("div");m.className="plan-meta";m.textContent=`الإنترنت: ${p.data_amount} | الصلاحية: ${p.validity_days} يوم`;const price=document.createElement("div");price.className="plan-price";price.textContent=`${p.price} ${p.currency}`;const desc=document.createElement("p");desc.className="plan-description";desc.textContent=p.description||"";const b=document.createElement("button");b.textContent="اشترك وادفع الآن";b.onclick=()=>openPayment(p);c.append(h,m,price,desc,b);out.appendChild(c)})}
-function openPayment(plan){selectedPlan=plan;selectedPaymentMethod="vodafone_cash";$("paymentPlanName").textContent=plan.name;$("paymentAmount").textContent=`${plan.price} ${plan.currency}`;$("paymentNumber").textContent=PAYMENT_NUMBER;$("receiptFile").value="";$("paymentStatus").textContent="حوّل المبلغ ثم ارفع صورة الإيصال لإرسال الطلب للمراجعة.";$("paymentModal").classList.remove("hidden");$("paymentModal").style.display="flex";document.querySelectorAll(".payment-choice button").forEach(b=>b.classList.toggle("selected",b.dataset.method===selectedPaymentMethod))}
+async function uploadActivationQR(){
+ const f=$("activationQrFile").files[0];
+ if(!f)return alert("اختر صورة QR");
+ if(!["image/png","image/jpeg","image/webp"].includes(f.type)||f.size>5*1024*1024)return alert("ارفع PNG أو JPG أو WEBP بحجم أقصى 5MB");
+ const {data:{user}}=await db.auth.getUser();
+ if(user?.app_metadata?.role!=="admin")return alert("غير مسموح");
+ const {error}=await db.storage.from(QR_BUCKET).upload(QR_PATH,f,{upsert:true,contentType:f.type,cacheControl:"0"});
+ if(error)return alert(error.message);
+ const {error:me}=await db.from("esim_qr_settings").upsert({id:1,object_path:QR_PATH,updated_at:new Date().toISOString()},{onConflict:"id"});
+ if(me)return alert(me.message);
+ alert("تم حفظ QR");$("activationQrFile").value="";loadAdminQR();
+}
+
+async function requestIndividualActivation(){
+ if(!currentUser){alert("سجّل الدخول أولاً");return}
+ if(!/iPhone|iPod/i.test(navigator.userAgent)){alert("التثبيت المباشر متاح من iPhone فقط.");return}
+ showCustomerTab("activation");
+ const status=$("customerActivationStatus"),button=$("customerActivationButton");
+ button.disabled=true;status.textContent="جاري التحقق من الحساب والدفع...";
+ try{
+  const {data:{session},error:sessionError}=await db.auth.getSession();
+  if(sessionError)throw sessionError;
+  const token=session?.access_token;
+  if(!token)throw new Error("انتهت الجلسة. سجّل الدخول مرة أخرى.");
+
+  const {data:orders,error:orderError}=await db.from("payment_orders").select("id").eq("user_id",currentUser.id).eq("status","approved").limit(1);
+  if(orderError)throw orderError;
+  if(!orders||orders.length===0)throw new Error("لا يوجد طلب دفع معتمد حتى الآن.");
+
+  status.textContent="جاري تجهيز رابط تثبيت الشريحة...";
+  const {data,error}=await db.functions.invoke("esim-install",{
+   body:{action:"install"},
+   headers:{Authorization:`Bearer ${token}`}
+  });
+
+  if(error){
+   let detail=error.message||"تعذر الاتصال بخدمة التفعيل.";
+   try{
+    const context=error.context;
+    if(context&&typeof context.json==="function"){
+     const payload=await context.json();
+     if(payload?.error)detail=payload.error;
+    }
+   }catch(_){}
+   throw new Error(detail);
+  }
+
+  if(!data?.success||!data?.install_url)throw new Error(data?.error||"تعذر تجهيز رابط التثبيت.");
+  const installUrl=new URL(data.install_url);
+  if(installUrl.protocol!=="https:"||installUrl.hostname!=="esimsetup.apple.com")throw new Error("رابط التثبيت غير صالح.");
+  status.textContent="تم تجهيز الرابط. جاري فتح إعدادات الشريحة...";
+  window.location.assign(installUrl.href);
+ }catch(e){
+  console.error("eSIM activation error:",e);
+  status.textContent="تعذر بدء التفعيل: "+(e.message||"خطأ غير معروف");
+ }finally{button.disabled=false}
+}
+
+async function addPlan(){
+ const name=$("planName").value.trim(),amount=$("planData").value.trim(),days=Number($("planDays").value),price=Number($("planPrice").value),currency=$("planCurrency").value.trim()||"EGP",description=$("planDescription").value.trim();
+ if(!name||!amount||!Number.isInteger(days)||days<1||$("planPrice").value===""||!Number.isFinite(price)||price<0)return alert("أكمل البيانات بشكل صحيح");
+ const {data:{user}}=await db.auth.getUser();
+ if(user?.app_metadata?.role!=="admin")return alert("غير مسموح");
+ const {error}=await db.from("esim_plans").insert({name,data_amount:amount,validity_days:days,price,currency,description,is_active:true});
+ if(error)return alert(error.message);
+ ["planName","planData","planDays","planPrice","planDescription"].forEach(i=>$(i).value="");
+ alert("تمت إضافة الباقة");loadAdminPlans();
+}
+
+async function loadAdminPlans(){
+ const out=$("adminPlans");out.textContent="جاري التحميل...";
+ try{
+  const {data,error}=await db.from("esim_plans").select("*").order("created_at",{ascending:false});
+  if(error)throw error;
+  out.innerHTML="";
+  if(!data?.length){out.textContent="لا توجد باقات";return}
+  data.forEach(p=>{
+   const c=document.createElement("div");c.className="user-card";
+   const t=document.createElement("div");t.style.whiteSpace="pre-line";
+   t.textContent=`${p.name}\n${p.data_amount} • ${p.validity_days} يوم\n${p.price} ${p.currency}\n${p.description||""}\nالحالة: ${p.is_active?"نشطة":"متوقفة"}`;
+   c.appendChild(t);
+   const a=document.createElement("div");a.className="admin-actions";
+   const e=document.createElement("button");e.textContent="تعديل";e.onclick=()=>editPlan(p);
+   const toggle=document.createElement("button");toggle.textContent=p.is_active?"إيقاف":"تفعيل";
+   toggle.onclick=async()=>{const {error}=await db.from("esim_plans").update({is_active:!p.is_active}).eq("id",p.id);if(error)alert(error.message);else loadAdminPlans()};
+   const d=document.createElement("button");d.textContent="حذف";d.className="danger";
+   d.onclick=async()=>{if(!confirm("حذف الباقة؟"))return;const {error}=await db.from("esim_plans").delete().eq("id",p.id);if(error)alert(error.message);else loadAdminPlans()};
+   a.append(e,toggle,d);c.appendChild(a);out.appendChild(c);
+  });
+ }catch(e){out.textContent=e.message}
+}
+
+async function editPlan(p){
+ const name=prompt("اسم الباقة",p.name);if(name===null)return;
+ const amount=prompt("الإنترنت",p.data_amount);if(amount===null)return;
+ const days=Number(prompt("الصلاحية بالأيام",p.validity_days));if(!Number.isInteger(days)||days<1)return alert("مدة غير صحيحة");
+ const price=Number(prompt("السعر",p.price));if(!Number.isFinite(price)||price<0)return alert("سعر غير صحيح");
+ const currency=prompt("العملة",p.currency);if(currency===null)return;
+ const description=prompt("الوصف",p.description||"");if(description===null)return;
+ const {error}=await db.from("esim_plans").update({name:name.trim(),data_amount:amount.trim(),validity_days:days,price,currency:currency.trim(),description:description.trim()}).eq("id",p.id);
+ if(error)alert(error.message);else loadAdminPlans();
+}
+
+async function loadCustomerPlans(){
+ const out=$("customerPlans");out.textContent="جاري تحميل الباقات...";
+ const {data,error}=await db.from("esim_plans").select("id,name,data_amount,validity_days,price,currency,description").eq("is_active",true).order("created_at",{ascending:false});
+ if(error){out.textContent=error.message;return}
+ out.innerHTML="";
+ if(!data?.length){out.textContent="لا توجد باقات متاحة";return}
+ data.forEach(p=>{
+  const c=document.createElement("div");c.className="plan-card";
+  const h=document.createElement("h3");h.textContent=p.name;
+  const m=document.createElement("div");m.className="plan-meta";m.textContent=`الإنترنت: ${p.data_amount} | الصلاحية: ${p.validity_days} يوم`;
+  const price=document.createElement("div");price.className="plan-price";price.textContent=`${p.price} ${p.currency}`;
+  const desc=document.createElement("p");desc.className="plan-description";desc.textContent=p.description||"";
+  const b=document.createElement("button");b.textContent="اشترك وادفع الآن";b.onclick=()=>openPayment(p);
+  c.append(h,m,price,desc,b);out.appendChild(c);
+ });
+}
+
+function openPayment(plan){
+ selectedPlan=plan;selectedPaymentMethod="vodafone_cash";
+ $("paymentPlanName").textContent=plan.name;
+ $("paymentAmount").textContent=`${plan.price} ${plan.currency}`;
+ $("paymentNumber").textContent=PAYMENT_NUMBER;
+ $("receiptFile").value="";
+ $("paymentStatus").textContent="حوّل المبلغ ثم ارفع صورة الإيصال لإرسال الطلب للمراجعة.";
+ $("paymentModal").classList.remove("hidden");$("paymentModal").style.display="flex";
+ document.querySelectorAll(".payment-choice button").forEach(b=>b.classList.toggle("selected",b.dataset.method===selectedPaymentMethod));
+}
 function closePayment(){$("paymentModal").classList.add("hidden");$("paymentModal").style.display="none"}
-function choosePayment(method){selectedPaymentMethod=method;document.querySelectorAll(".payment-choice button").forEach(b=>b.classList.toggle("selected",b.dataset.method===method))}
-async function submitPayment(){if(!currentUser||!selectedPlan)return alert("سجّل الدخول واختر باقة أولاً");const f=$("receiptFile").files[0];if(!f)return alert("ارفع صورة إيصال التحويل أولاً");if(!["image/jpeg","image/png","image/webp","application/pdf"].includes(f.type)||f.size>5*1024*1024)return alert("ارفع صورة أو PDF بحجم أقصى 5MB");const b=$("submitPaymentButton");b.disabled=true;try{const orderId=crypto.randomUUID(),ext=f.type==="application/pdf"?"pdf":f.type==="image/png"?"png":f.type==="image/webp"?"webp":"jpg",path=`${currentUser.id}/${orderId}.${ext}`;const {error:up}=await db.storage.from(RECEIPT_BUCKET).upload(path,f,{contentType:f.type,upsert:false});if(up)throw up;const {error:ins}=await db.from("payment_orders").insert({id:orderId,user_id:currentUser.id,plan_id:String(selectedPlan.id),plan_name:selectedPlan.name,amount:selectedPlan.price,currency:selectedPlan.currency,payment_method:selectedPaymentMethod,receipt_path:path,status:"pending"});if(ins)throw ins;closePayment();alert("تم إرسال طلب الدفع. سيظهر التفعيل بعد مراجعة الإدارة.");await loadCustomerOrders()}catch(e){alert("تعذر إرسال الطلب: "+e.message)}finally{b.disabled=false}}
-async function loadCustomerOrders(){const out=$("customerOrders");const {data,error}=await db.from("payment_orders").select("id,plan_name,amount,currency,payment_method,status,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false});if(error){out.textContent="تعذر تحميل الطلبات: "+error.message;return}out.innerHTML="";if(!data?.length){out.textContent="لا توجد طلبات دفع حتى الآن.";$("homeLatestOrder").textContent="لا توجد طلبات دفع حتى الآن.";return}data.forEach(o=>{const c=document.createElement("div");c.className="order-card";const st={pending:"قيد المراجعة",approved:"تم تأكيد الدفع",rejected:"مرفوض"};c.textContent=`${o.plan_name} — ${o.amount} ${o.currency}\nطريقة الدفع: ${o.payment_method==="vodafone_cash"?"فودافون كاش":"إنستاباي"}\nالحالة: ${st[o.status]||o.status}`;if(o.status==="approved"){const b=document.createElement("button");b.textContent="تفعيل الآن";b.onclick=requestIndividualActivation;c.appendChild(b)}out.appendChild(c)});$("homeLatestOrder").textContent="آخر طلب: "+data[0].plan_name+" — "+({pending:"قيد المراجعة",approved:"تم تأكيد الدفع",rejected:"مرفوض"}[data[0].status]||data[0].status)}
-async function loadAdminOrders(){const out=$("adminOrders");if(!out)return;out.textContent="جاري تحميل الطلبات...";const {data,error}=await db.from("payment_orders").select("*").order("created_at",{ascending:false}).limit(100);if(error){out.textContent="تعذر تحميل الطلبات: "+error.message;return}out.innerHTML="";if(!data?.length){out.textContent="لا توجد طلبات حتى الآن";return}for(const o of data){const c=document.createElement("div");c.className="order-card";const p=document.createElement("p");p.style.whiteSpace="pre-line";p.textContent=`العميل: ${o.user_id}\nالباقة: ${o.plan_name}\nالمبلغ: ${o.amount} ${o.currency}\nالدفع: ${o.payment_method==="vodafone_cash"?"فودافون كاش":"إنستاباي"}\nالحالة: ${o.status}`;c.appendChild(p);const {data:signed,error:se}=await db.storage.from(RECEIPT_BUCKET).createSignedUrl(o.receipt_path,300);if(!se&&signed?.signedUrl){const a=document.createElement("a");a.href=signed.signedUrl;a.target="_blank";a.rel="noopener";a.textContent="عرض إيصال الدفع";a.style.color="#e5e7eb";c.appendChild(a)}const actions=document.createElement("div");actions.className="admin-actions";[{label:"تأكيد الدفع",status:"approved"},{label:"رفض",status:"rejected"}].forEach(x=>{const b=document.createElement("button");b.textContent=x.label;if(x.status==="rejected")b.className="danger";b.onclick=async()=>{if(!confirm("تأكد أنك راجعت التحويل ووصل المبلغ فعليًا قبل الاعتماد. متابعة؟"))return;const {error}=await db.from("payment_orders").update({status:x.status,reviewed_at:new Date().toISOString()}).eq("id",o.id);if(error)alert(error.message);else loadAdminOrders()};actions.appendChild(b)});c.appendChild(actions);out.appendChild(c)}}
+function choosePayment(method){
+ selectedPaymentMethod=method;
+ document.querySelectorAll(".payment-choice button").forEach(b=>b.classList.toggle("selected",b.dataset.method===method));
+}
+
+async function submitPayment(){
+ if(!currentUser||!selectedPlan)return alert("سجّل الدخول واختر باقة أولاً");
+ const f=$("receiptFile").files[0];
+ if(!f)return alert("ارفع صورة إيصال التحويل أولاً");
+ if(!["image/jpeg","image/png","image/webp","application/pdf"].includes(f.type)||f.size>5*1024*1024)return alert("ارفع صورة أو PDF بحجم أقصى 5MB");
+ const b=$("submitPaymentButton");b.disabled=true;
+ try{
+  const orderId=crypto.randomUUID(),ext=f.type==="application/pdf"?"pdf":f.type==="image/png"?"png":f.type==="image/webp"?"webp":"jpg",path=`${currentUser.id}/${orderId}.${ext}`;
+  const {error:up}=await db.storage.from(RECEIPT_BUCKET).upload(path,f,{contentType:f.type,upsert:false});
+  if(up)throw up;
+  const {error:ins}=await db.from("payment_orders").insert({id:orderId,user_id:currentUser.id,plan_id:String(selectedPlan.id),plan_name:selectedPlan.name,amount:selectedPlan.price,currency:selectedPlan.currency,payment_method:selectedPaymentMethod,receipt_path:path,status:"pending"});
+  if(ins)throw ins;
+  closePayment();alert("تم إرسال طلب الدفع. سيظهر التفعيل بعد مراجعة الإدارة.");await loadCustomerOrders();
+ }catch(e){alert("تعذر إرسال الطلب: "+e.message)}
+ finally{b.disabled=false}
+}
+
+async function loadCustomerOrders(){
+ const out=$("customerOrders");
+ const {data,error}=await db.from("payment_orders").select("id,plan_name,amount,currency,payment_method,status,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false});
+ if(error){out.textContent="تعذر تحميل الطلبات: "+error.message;return}
+ out.innerHTML="";
+ if(!data?.length){out.textContent="لا توجد طلبات دفع حتى الآن.";$("homeLatestOrder").textContent="لا توجد طلبات دفع حتى الآن.";return}
+ data.forEach(o=>{
+  const c=document.createElement("div");c.className="order-card";
+  const st={pending:"قيد المراجعة",approved:"تم تأكيد الدفع",rejected:"مرفوض"};
+  c.textContent=`${o.plan_name} — ${o.amount} ${o.currency}\nطريقة الدفع: ${o.payment_method==="vodafone_cash"?"فودافون كاش":"إنستاباي"}\nالحالة: ${st[o.status]||o.status}`;
+  if(o.status==="approved"){const b=document.createElement("button");b.textContent="تفعيل الآن";b.onclick=requestIndividualActivation;c.appendChild(b)}
+  out.appendChild(c);
+ });
+ $("homeLatestOrder").textContent="آخر طلب: "+data[0].plan_name+" — "+({pending:"قيد المراجعة",approved:"تم تأكيد الدفع",rejected:"مرفوض"}[data[0].status]||data[0].status);
+}
+
+async function loadAdminOrders(){
+ const out=$("adminOrders");if(!out)return;out.textContent="جاري تحميل الطلبات...";
+ const {data,error}=await db.from("payment_orders").select("*").order("created_at",{ascending:false}).limit(100);
+ if(error){out.textContent="تعذر تحميل الطلبات: "+error.message;return}
+ out.innerHTML="";
+ if(!data?.length){out.textContent="لا توجد طلبات حتى الآن";return}
+ for(const o of data){
+  const c=document.createElement("div");c.className="order-card";
+  const p=document.createElement("p");p.style.whiteSpace="pre-line";
+  p.textContent=`العميل: ${o.user_id}\nالباقة: ${o.plan_name}\nالمبلغ: ${o.amount} ${o.currency}\nالدفع: ${o.payment_method==="vodafone_cash"?"فودافون كاش":"إنستاباي"}\nالحالة: ${o.status}`;
+  c.appendChild(p);
+  const {data:signed,error:se}=await db.storage.from(RECEIPT_BUCKET).createSignedUrl(o.receipt_path,300);
+  if(!se&&signed?.signedUrl){
+   const a=document.createElement("a");a.href=signed.signedUrl;a.target="_blank";a.rel="noopener";a.textContent="عرض إيصال الدفع";a.style.color="#f5d98b";c.appendChild(a);
+  }
+  const actions=document.createElement("div");actions.className="admin-actions";
+  [{label:"تأكيد الدفع",status:"approved"},{label:"رفض",status:"rejected"}].forEach(x=>{
+   const b=document.createElement("button");b.textContent=x.label;if(x.status==="rejected")b.className="danger";
+   b.onclick=async()=>{
+    if(!confirm("تأكد أنك راجعت التحويل ووصل المبلغ فعليًا قبل الاعتماد. متابعة؟"))return;
+    const {error}=await db.from("payment_orders").update({status:x.status,reviewed_at:new Date().toISOString()}).eq("id",o.id);
+    if(error)alert(error.message);else loadAdminOrders();
+   };
+   actions.appendChild(b);
+  });
+  c.appendChild(actions);out.appendChild(c);
+ }
+}
+
 function stopSupportPolling(){if(supportPollTimer){clearInterval(supportPollTimer);supportPollTimer=null}}
-function startSupportPolling(){stopSupportPolling();supportPollTimer=setInterval(async()=>{if(!currentUser)return;if(currentUser.app_metadata?.role==="admin"){await loadAdminSupportMessages();if(selectedSupportUserId)await loadAdminConversation(selectedSupportUserId,false);await loadAdminOrders()}else{await loadCustomerSupportMessages();await loadCustomerOrders()}},10000)}
-function formatChatTime(v){const d=new Date(v);return Number.isNaN(d.getTime())?"":d.toLocaleString("ar-EG",{dateStyle:"short",timeStyle:"short"})}
-function renderChatMessages(box,items,own){box.innerHTML="";if(!items?.length){const e=document.createElement("div");e.className="chat-empty";e.textContent="لا توجد رسائل حتى الآن.";box.appendChild(e);return}items.forEach(i=>{const b=document.createElement("div");b.className="chat-msg "+(i.sender_role===own?"customer":"admin");const body=document.createElement("div");body.textContent=i.body;const meta=document.createElement("span");meta.className="chat-meta";meta.textContent=(i.sender_role==="admin"?"الدعم":"العميل")+" • "+formatChatTime(i.created_at);b.append(body,meta);box.appendChild(b)});box.scrollTop=box.scrollHeight}
-async function loadCustomerSupportMessages(){if(!currentUser)return;const box=$("customerChatMessages");const {data,error}=await db.from("support_messages").select("id,sender_role,body,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:true});if(error){box.textContent=error.message;return}renderChatMessages(box,data,"customer")}
-async function sendCustomerMessage(){const i=$("customerChatInput"),b=$("customerSendButton"),body=i.value.trim();if(!body)return;if(!currentUser)return alert("سجّل الدخول أولاً");b.disabled=true;const {error}=await db.from("support_messages").insert({user_id:currentUser.id,sender_role:"customer",body});b.disabled=false;if(error)return alert(error.message);i.value="";loadCustomerSupportMessages()}
-async function loadAdminSupportMessages(){const out=$("adminConversations");const {data:msgs,error}=await db.from("support_messages").select("user_id,body,sender_role,created_at").order("created_at",{ascending:false}).limit(500);if(error){out.textContent=error.message;return}const latest=new Map();(msgs||[]).forEach(m=>{if(!latest.has(m.user_id))latest.set(m.user_id,m)});const ids=[...latest.keys()];if(!ids.length){out.textContent="لا توجد محادثات";return}const {data:profiles,error:pe}=await db.from("profiles").select("id,full_name,phone").in("id",ids);if(pe){out.textContent=pe.message;return}const map=new Map((profiles||[]).map(p=>[p.id,p]));out.innerHTML="";ids.forEach(id=>{const p=map.get(id)||{},m=latest.get(id),b=document.createElement("button");b.className="chat-conversation";b.textContent=(p.full_name||"عميل")+" — "+(p.phone||"بدون رقم")+"\n"+String(m.body||"").slice(0,90);b.onclick=()=>{selectedSupportUserId=id;$("adminChatArea").classList.remove("hidden");$("adminChatTitle").textContent="محادثة: "+(p.full_name||"عميل");loadAdminConversation(id,true)};out.appendChild(b)})}
-async function loadAdminConversation(id){const box=$("adminChatMessages");const {data,error}=await db.from("support_messages").select("id,sender_role,body,created_at").eq("user_id",id).order("created_at",{ascending:true});if(error){box.textContent=error.message;return}renderChatMessages(box,data,"admin")}
-async function sendAdminMessage(){const i=$("adminChatInput"),b=$("adminSendButton"),body=i.value.trim();if(!body||!selectedSupportUserId)return;b.disabled=true;const {error}=await db.from("support_messages").insert({user_id:selectedSupportUserId,sender_role:"admin",body});b.disabled=false;if(error)return alert(error.message);i.value="";await loadAdminConversation(selectedSupportUserId);loadAdminSupportMessages()}
-async function logout(){stopSupportPolling();currentUser=null;await db.auth.signOut();showLogin();message("تم تسجيل الخروج")}
-function GenCopyPaymentNumber(){navigator.clipboard?.writeText(PAYMENT_NUMBER).then(()=>alert("تم نسخ الرقم")).catch(()=>alert("رقم الدفع: "+PAYMENT_NUMBER))}
-db.auth.onAuthStateChange((event)=>{if(event==="SIGNED_OUT"){stopSupportPolling();currentUser=null;showLogin()}});
-(async()=>{const {data:{session}}=await db.auth.getSession();if(session)await loadProfile();else showLogin()})();
+function startSupportPolling(){
+ stopSupportPolling();
+ supportPollTimer=setInterval(async()=>{
+  if(!currentUser)return;
+  if(currentUser.app_metadata?.role==="admin"){
+   await loadAdminSupportMessages();
+   if(selectedSupportUserId)await loadAdminConversation(selectedSupportUserId,false);
+   await loadAdminOrders();
+  }else{
+   await loadCustomerSupportMessages();await loadCustomerOrders();
+  }
+ },10000);
+}
+function formatChatTime(v){
+ const d=new Date(v);
+ return Number.isNaN(d.getTime())?"":d.toLocaleString("ar-EG",{dateStyle:"short",timeStyle:"short"});
+}
+function renderChatMessages(box,items,own){
+ box.innerHTML="";
+ if(!items?.length){const e=document.createElement("div");e.className="chat-empty";e.textContent="لا توجد رسائل حتى الآن.";box.appendChild(e);return}
+ items.forEach(i=>{
+  const b=document.createElement("div");b.className="chat-msg "+(i.sender_role===own?"customer":"admin");
+  const body=document.createElement("div");body.textContent=i.body;
+  const meta=document.createElement("span");meta.className="chat-meta";
+  meta.textContent=(i.sender_role==="admin"?"الدعم":"العميل")+" • "+formatChatTime(i.created_at);
+  b.append(body,meta);box.appendChild(b);
+ });
+ box.scrollTop=box.scrollHeight;
+}
+async function loadCustomerSupportMessages(){
+ if(!currentUser)return;
+ const box=$("customerChatMessages");
+ const {data,error}=await db.from("support_messages").select("id,sender_role,body,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:true});
+ if(error){box.textContent=error.message;return}
+ renderChatMessages(box,data,"customer");
+}
+async function sendCustomerMessage(){
+ const i=$("customerChatInput"),b=$("customerSendButton"),body=i.value.trim();
+ if(!body)return;if(!currentUser)return alert("سجّل الدخول أولاً");
+ b.disabled=true;
+ const {error}=await db.from("support_messages").insert({user_id:currentUser.id,sender_role:"customer",body});
+ b.disabled=false;
+ if(error)return alert(error.message);
+ i.value="";loadCustomerSupportMessages();
+}
+async function loadAdminSupportMessages(){
+ const out=$("adminConversations");
+ const {data:msgs,error}=await db.from("support_messages").select("user_id,body,sender_role,created_at").order("created_at",{ascending:false}).limit(500);
+ if(error){out.textContent=error.message;return}
+ const latest=new Map();(msgs||[]).forEach(m=>{if(!latest.has(m.user_id))latest.set(m.user_id,m)});
+ const ids=[...latest.keys()];
+ if(!ids.length){out.textContent="لا توجد محادثات";return}
+ const {data:profiles,error:pe}=await db.from("profiles").select("id,full_name,phone").in("id",ids);
+ if(pe){out.textContent=pe.message;return}
+ const map=new Map((profiles||[]).map(p=>[p.id,p]));
+ out.innerHTML="";
+ ids.forEach(id=>{
+  const p=map.get(id)||{},m=latest.get(id),b=document.createElement("button");
+  b.className="chat-conversation";
+  b.textContent=(p.full_name||"عميل")+" — "+(p.phone||"بدون رقم")+"\n"+String(m.body||"").slice(0,90);
+  b.onclick=()=>{selectedSupportUserId=id;$("adminChatArea").classList.remove("hidden");$("adminChatTitle").textContent="محادثة: "+(p.full_name||"عميل");loadAdminConversation(id,true)};
+  out.appendChild(b);
+ });
+}
+async function loadAdminConversation(id){
+ const box=$("adminChatMessages");
+ const {data,error}=await db.from("support_messages").select("id,sender_role,body,created_at").eq("user_id",id).order("created_at",{ascending:true});
+ if(error){box.textContent=error.message;return}
+ renderChatMessages(box,data,"admin");
+}
+async function sendAdminMessage(){
+ const i=$("adminChatInput"),b=$("adminSendButton"),body=i.value.trim();
+ if(!body||!selectedSupportUserId)return;
+ b.disabled=true;
+ const {error}=await db.from("support_messages").insert({user_id:selectedSupportUserId,sender_role:"admin",body});
+ b.disabled=false;
+ if(error)return alert(error.message);
+ i.value="";await loadAdminConversation(selectedSupportUserId);loadAdminSupportMessages();
+}
+async function logout(){
+ stopSupportPolling();currentUser=null;await db.auth.signOut();showLogin();message("تم تسجيل الخروج");
+}
+function GenCopyPaymentNumber(){
+ navigator.clipboard?.writeText(PAYMENT_NUMBER).then(()=>alert("تم نسخ الرقم")).catch(()=>alert("رقم الدفع: "+PAYMENT_NUMBER));
+}
+
+db.auth.onAuthStateChange((event)=>{
+ if(event==="SIGNED_OUT"){stopSupportPolling();currentUser=null;showLogin()}
+});
+
+(async()=>{
+ const {data:{session}}=await db.auth.getSession();
+ if(session)await loadProfile();else showLogin();
+})();
 </script>
 </body>
 </html>
